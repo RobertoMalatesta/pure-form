@@ -9,6 +9,15 @@
 
     'use strict';
 
+    // check if we're using a touch screen
+    var isTouch = (('ontouchstart' in window) || (navigator.MaxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
+
+    // switch to touch events if using a touch screen
+    //var mouseDown = isTouch ? 'touchstart' : 'mousedown';
+    //var mouseOut = isTouch ? 'touchcancel' : 'mouseout';
+    var mouseClick = isTouch ? 'touchend' : 'click';
+    //var mouseMove = isTouch ? 'touchmove' : 'mousemove';
+
     // regex validation patterns
     var patterns = {
         email: /^[a-zA-Z0-9-_.]{1,}@[a-zA-Z0-9.-]{2,}[.]{1}[a-zA-Z]{2,}$/,
@@ -615,6 +624,30 @@
                 setCharactersRemaining(el);
             });
 
+            this.form.addEventListener('change', function(e) {
+
+                var el = e.target;
+
+                // listen for file change events and add base64 file data as .data item
+                if (el && el.tagName === 'INPUT' && el.type === 'file') {
+
+                    // convert files into array object
+                    var files = Array.prototype.slice.call(e.target.files);
+
+                    // add .data collection to store base64 data
+                    el.data = el.data || [];
+
+                    // go through each file (it might be multiple)
+                    files.forEach(function(file, index) {
+
+                        // get the file as base64 string add to data array using same index (handles overwrites)
+                        getBase64(file, function(base64) {
+                            el.data[index] = base64;
+                        });
+                    });
+                }
+            });
+
             // go through array of keys (as string) and remove keys we're not interested in
             orderedKeys = orderedKeys.filter(function (key) {
                 return (key !== 'links' && key.indexOf('$') === -1 && properties.hasOwnProperty(key));
@@ -796,7 +829,7 @@
             });
 
             // listen for button click events
-            buttonContainer.onclick = function(e) {
+            buttonContainer.addEventListener(mouseClick, function(e) {
 
                 var el = e.target;
 
@@ -827,7 +860,7 @@
                         } break;
                     }
                 }
-            };
+            });
         }
         else {
             removeElementBySelector(this, '.pure-form-buttons');
@@ -923,8 +956,13 @@
 
                         default: {
 
-                            if (schemaItem.format === 'html') {
+                            var format = schemaItem.format || '';
+
+                            if (format === 'html') {
                                 formData[key] = (element.innerHTML || '').trim();
+                            }
+                            else if (format.indexOf('custom:') === 0 && element.type === 'file' && element.files && element.files[0]) {
+                                formData[key] = (element.files.length === 1) ? element.data[0] : element.data;
                             }
                             else {
                                 formData[key] = (element.value || '').trim();
@@ -1550,6 +1588,20 @@
      */
     function regExMatches(src, pattern) {
         return ((pattern.constructor !== RegExp) ? new RegExp(pattern, 'g') : pattern).test(src);
+    }
+
+    /**
+     * Reads a client side file and returns it as a Base64 string (IE10+)
+     * @param {string} file - file path from file input element value
+     * @param {function} callback - function to call when operation complete, passing base64 data
+     * @returns {void}
+     */
+    function getBase64(file, callback) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            callback(reader.result);
+        };
+        reader.readAsDataURL(file);
     }
 
     // patch CustomEvent to allow constructor creation (IE/Chrome) - resolved once initCustomEvent no longer exists
