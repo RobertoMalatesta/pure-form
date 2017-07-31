@@ -55,6 +55,13 @@
       "format": "textarea",
       "required": true,
       "maxLength": 100
+    },
+    "picture": {
+      "title": "Profile Pic",
+      "id": "order7",
+      "type": "string",
+      "format": "custom:input;type=file,accept=image/*",
+      "required": true
     }
   }
 }

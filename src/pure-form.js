@@ -11,7 +11,9 @@
 
     // regex validation patterns
     var patterns = {
-        email: /^[a-zA-Z0-9-_.]{1,}@[a-zA-Z0-9.-]{2,}[.]{1}[a-zA-Z]{2,}$/
+        email: /^[a-zA-Z0-9-_.]{1,}@[a-zA-Z0-9.-]{2,}[.]{1}[a-zA-Z]{2,}$/,
+        // matches custom URC used to create custom elements, example = custom:tag:attributeKey1=attributeValue1,attributeKey2=attributeValue2
+        customURC: /^custom:([a-z0-9-]*)(?:;|)([a-z0-9-=/*,.]+|)$/i
     };
 
     // Create a new instance of the base object with these additional items
@@ -1123,7 +1125,7 @@
                 else {
 
                     // switch types for special formats or fallback to type text
-                    switch (format.toLowerCase()) {
+                    switch (format) {
 
                         case 'url':
                         case 'uri': {
@@ -1151,7 +1153,35 @@
                         } break;
 
                         default: {
-                            el = createEl(null, 'input', { name: id, id: id, type: 'text', value: '' });
+
+                            // support custom types in URC format (custom:tag;attr1=val1,attr2=val2)
+                            if (regExMatches(format, patterns.customURC)) {
+
+                                var captures = patterns.customURC.exec(format);
+
+                                if (captures && captures.length === 3) {
+
+                                    var tag = captures[1];
+                                    var attrs = (captures[2] || '').split(',').filter(Boolean);
+
+                                    // create custom element
+                                    el = createEl(null, tag, { name: id, id: id });
+
+                                    // add attributes
+                                    attrs.forEach(function(attr) {
+                                        var parts = attr.split('=');
+                                        var key = parts[0];
+                                        var val = parts[1];
+                                        el.setAttribute(key, val);
+                                    });
+                                }
+                                else {
+                                    throw new Error('Invalid custom format on field ' + id);
+                                }
+                            }
+                            else {
+                                el = createEl(null, 'input', { name: id, id: id, type: 'text', value: '' });
+                            }
                         }
                     }
                 }
