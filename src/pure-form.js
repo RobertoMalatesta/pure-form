@@ -1599,7 +1599,7 @@
     function getBase64(file, callback) {
         var reader = new FileReader();
         reader.onload = function () {
-            callback(reader.result);
+            callback(reader.result.split(',').pop());
         };
         reader.readAsDataURL(file);
     }
