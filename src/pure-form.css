@@ -175,6 +175,24 @@ pure-form select.pure-form-item {
     cursor: pointer;
 }
 
+/* --- START: FORMAT=HTML --- */
+/* styles starting with [pure-form .pure-form-html] are injected into IFRAME when format=html */
+
+pure-form .pure-form-html body {
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    font-family: tahoma;
+}
+
+pure-form .pure-form-html h1 {
+    margin: 0;
+    font-size: 18px;
+    font-family: tahoma;
+}
+
+/* --- END: FORMAT=HTML --- */
+
 pure-form .pure-form-buttons {
     display: block;
     clear: both;

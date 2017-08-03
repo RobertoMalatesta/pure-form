@@ -52,9 +52,10 @@
       "title": "Experience",
       "id": "order6",
       "type": "string",
-      "format": "textarea",
+      "format": "html",
       "required": true,
-      "maxLength": 100
+      "maxLength": 100,
+      "readonly": true
     },
     "picture": {
       "title": "Profile Pic",

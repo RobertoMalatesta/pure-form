@@ -715,6 +715,27 @@
 
                         // add row to form
                         this.form.appendChild(lbl);
+
+                        // inject iframe styles here
+                        if (inputEl.tagName === 'IFRAME') {
+
+                            if (!self.readonly && !item.readonly) {
+                                // make it content editable if it's not readonly
+                                inputEl.contentDocument.body.contentEditable = true;
+                            }
+
+                            // TODO: load styles
+                            var iframeStyles = getStylesBySelector('pure-form .pure-form-html ', true);
+
+                            if (iframeStyles) {
+
+                                var css = Object.keys(iframeStyles).map(function(selector) {
+                                    return selector.replace('pure-form .pure-form-html ', '') + '{' + iframeStyles[selector] + '}';
+                                });
+
+                                inputEl.contentDocument.head.innerHTML = '<style>' + css.join('\n') + '</style>';
+                            }
+                        }
                     }
                     else {
                         this.form.appendChild(inputEl);
@@ -877,7 +898,7 @@
         var maxLen = parseInt(input.getAttribute('maxlength') || input.getAttribute('data-maxlength') || '0', 10);
         var label = getParentByAttributeValue(input, 'tagName', 'LABEL');
 
-        if (label && maxLen > 0) {
+        if (input.tagName === 'TEXTAREA' && label && maxLen > 0) {
 
             var valLen = input.value.length;
 
@@ -917,8 +938,12 @@
             // this is the schema item not the element itself
             var schemaItem = schema[key];
 
-            if (!schema[key].readonly) {
+            if (schemaItem.required && schemaItem.default) {
+                formData[key] = schemaItem.default;
+            }
+            else {
 
+                // get the value from the element
                 var element = self.querySelector('[name="' + key + '"]');
 
                 if (element) {
@@ -959,7 +984,7 @@
                             var format = schemaItem.format || '';
 
                             if (format === 'html') {
-                                formData[key] = (element.innerHTML || '').trim();
+                                formData[key] = (element.contentDocument.body.innerHTML || '').trim();
                             }
                             else if (format.indexOf('custom:') === 0 && element.type === 'file' && element.files && element.files[0]) {
                                 formData[key] = (element.files.length === 1) ? element.data[0] : element.data;
@@ -975,15 +1000,10 @@
                     }
                 }
 
-                // remove empty strings
+                // remove keys with empty strings
                 if (!schemaItem.required && formData[key] === '') {
                     delete formData[key];
                 }
-            }
-            else {
-
-                // Required, read-only value will keep its existing value since the form will not allow entry.
-                formData[key] = (this.value && this.value[key]) || (schemaItem.required && schemaItem.default) || undefined;
             }
         });
 
@@ -1174,8 +1194,12 @@
                             el = createEl(null, 'textarea', { name: id, id: id, value: '', rows: 3 });
                         } break;
 
+                        // case 'html': {
+                        //     el = createEl(null, 'div', { name: id, id: id, contenteditable: true, rows: 3 });
+                        // } break;
+
                         case 'html': {
-                            el = createEl(null, 'div', { name: id, id: id, contenteditable: true, rows: 3 });
+                            el = createEl(null, 'iframe', { name: id, id: id, frameborder: 0, src: 'about:blank' });
                         } break;
 
                         case 'date': {
@@ -1533,6 +1557,17 @@
                 el.innerHTML = value || '';
             } break;
 
+            case 'iframe': {
+                if (el.contentDocument) {
+
+                    // clear the iframe
+                    el.contentDocument.body.innerHTML = '';
+
+                    // add content as elements (removes script tags)
+                    stringToDOM(value || '', el.contentDocument.body);
+                }
+            } break;
+
             default: {
                 el.value = value;
             }
@@ -1737,6 +1772,44 @@
             }
         };
     })();
+
+    /**
+     * Get all CSS style blocks matching a CSS selector from stylesheets
+     * @param {string} className - class name to match
+     * @param {boolean} startingWith - if true matches all items starting with selector, default = false (exact match only)
+     * @example getStylesBySelector('pure-form .pure-form-html ')
+     * @returns {object} key/value object containing matching styles otherwise null
+     */
+    function getStylesBySelector(className, startingWith) {
+
+        if (!className || className === '') throw new Error('Please provide a css class name');
+
+        var styleSheets = window.document.styleSheets;
+        var result = {};
+
+        // go through all stylesheets in the DOM
+        for (var i = 0, l = styleSheets.length; i < l; i++) {
+
+            var classes = styleSheets[i].rules || styleSheets[i].cssRules || [];
+
+            // go through all classes in each document
+            for (var x = 0, ll = classes.length; x < ll; x++) {
+
+                var selector = classes[x].selectorText || '';
+                var content = classes[x].cssText || classes[x].style.cssText || '';
+
+                // if the selector matches
+                if ((startingWith && selector.indexOf(className) === 0) || selector === className) {
+
+                    // create an object entry with selector as key and value as content
+                    result[selector] = content.split(/(?:{|})/)[1].trim();
+                }
+            }
+        }
+
+        // only return object if we have values, otherwise null
+        return Object.keys(result).length > 0 ? result : null;
+    }
 
     if (document.registerElement) {
         // register component with the dom

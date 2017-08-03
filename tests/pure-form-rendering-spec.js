@@ -30,6 +30,7 @@ var inlineSchema = {
             type: 'string',
             required: true,
             description: 'Family name',
+            format: 'textarea',
             maxLength: 10
         }
     }
