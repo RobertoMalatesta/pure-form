@@ -83,6 +83,7 @@ describe('pure-form interface', function () {
         expect(typeof el.useFormTag).toEqual('boolean');
         expect(typeof el.enforceMaxLength).toEqual('boolean');
         expect(typeof el.schemaId).toEqual('string');
+        expect(typeof el.autoResize).toEqual('boolean');
     });
 
 
@@ -109,6 +110,7 @@ describe('pure-form interface', function () {
         expect(el.useFormTag).toEqual(true);
         expect(el.enforceMaxLength).toEqual(false);
         expect(el.schemaId).toEqual('');
+        expect(el.autoResize).toEqual(false);
     });
 
 

@@ -165,7 +165,7 @@ Attribute                | Description
 
 ### Properties
 
-The following properties can be set via JavaScript:
+Assuming `contactForm = document.getElementById('contactForm')`, the following properties can be set via JavaScript:
 
 Property                                       | Type      | Default | Description
 ---------------------------------------------- | --------- | ----------------------------------- | -----------------------------------------------------------------------------------------------------
@@ -188,50 +188,51 @@ Property                                       | Type      | Default | Descripti
 [useFormTag](#useformtag)                      | _boolean_ | `true`                              | If false, uses a DIV rather than a HTML FORM tag _(helps overcome iOS GO button issue)_
 [enforceMaxLength](#enforcemaxlength)          | _boolean_ | `false`                             | If true, does not allow the user to enter more characters that the value of schema maxLength property
 [schemaId](#schemaId)                          | _string_  | _empty_                             | id valid of the currently rendered schema _(readonly)_
+[autoResize](#autoresize)                      | _boolean_ | `false`                             | if true, expands the height of text and html inputs to display content - default false
 
 #### action
 
 ```js
 // change the form post destination url
-document.getElementById('contactForm').action = 'http://www.example.com/example';
+contactForm.action = 'http://www.example.com/example';
 ```
 
 #### enctype
 
 ```js
 // change the format data is sent to the server
-document.getElementById('contactForm').enctype = 'multipart/form-data';
+contactForm.enctype = 'multipart/form-data';
 ```
 
 #### method
 
 ```js
 // post the form data to the server
-document.getElementById('contactForm').method = 'post';
+contactForm.method = 'post';
 ```
 
 #### src
 
 ```js
 // setting the src triggers loading of the JSON Schema:
-document.getElementById('contactForm').src = 'http://domain.com/schema-name.json';
+contactForm.src = 'http://domain.com/schema-name.json';
 ```
 
 #### schema
 
 ```js
 // get the schema retrieved from the server
-var jsonSchema = document.getElementById('contactForm').schema;
+var jsonSchema = contactForm.schema;
 ```
 
 #### value
 
 ```js
 // get the value of the form as a JSON object
-var formValue = document.getElementById('contactForm').value;
+var formValue = contactForm.value;
 
 // set the value of the form using a JSON object with keys matching fields
-document.getElementById('contactForm').value = {
+contactForm.value = {
   title: "Mr",
   firstName: "John",
   surname: "Doherty"
@@ -242,30 +243,30 @@ document.getElementById('contactForm').value = {
 
 ```js
 // set all form fields to readonly
-document.getElementById('contactForm').readonly = true;
+contactForm.readonly = true;
 ```
 
 #### title
 
 ```js
 // set the title rendered at the top of the form
-document.getElementById('contactForm').title = 'Contact Us';
+contactForm.title = 'Contact Us';
 ```
 
 #### description
 
 ```js
 // set the description rendered at the top of the form
-document.getElementById('contactForm').description = 'Got a question? Get in touch.';
+contactForm.description = 'Got a question? Get in touch.';
 ```
 
 #### buttons
 
 ```js
 // Add Ok and Cancel buttons
-document.getElementById('contactForm').buttons = 'Ok, Cancel';
+contactForm.buttons = 'Ok, Cancel';
 
-document.getElementById('contactForm').addEventListener('button-clicked', function(e) {
+contactForm.addEventListener('button-clicked', function(e) {
   if (e.detail === 'Ok') {
     // Ok clicked, do something
   }
@@ -276,14 +277,14 @@ document.getElementById('contactForm').addEventListener('button-clicked', functi
 
 ```js
 // preserve form data between page reloads
-document.getElementById('contactForm').persist = true;
+contactForm.persist = true;
 ```
 
 #### disableValidation
 
 ```js
 // disable form validation
-document.getElementById('contactForm').disableValidation = true;
+contactForm.disableValidation = true;
 ```
 
 #### placeholderMaxLength
@@ -291,49 +292,56 @@ document.getElementById('contactForm').disableValidation = true;
 ```js
 // the maximum number of characters to use a input placeholder before 
 // rendering the item description under the field
-document.getElementById('contactForm').placeholderMaxLength = 25;
+contactForm.placeholderMaxLength = 25;
 ```
 
 #### autofocusError
 
 ```js
 // automatically set focus to the first error found within a form
-document.getElementById('contactForm').autofocusError = true;
+contactForm.autofocusError = true;
 ```
 
 #### validateOnBlur
 
 ```js
 // automatically validate each field as it looses focus
-document.getElementById('contactForm').validateOnBlur = true;
+contactForm.validateOnBlur = true;
 ```
 
 #### tabOnEnter
 
 ```js
 // move to the next field when the user presses the enter key
-document.getElementById('contactForm').tabOnEnter = true;
+contactForm.tabOnEnter = true;
 ```
 
 #### useFormTag
 
 ```js
 // do not use a <form> tag to render form elements (helps fix iOS/Safari GO button issue)
-document.getElementById('contactForm').useFormTag = true;
+contactForm.useFormTag = true;
 ```
 
 #### enforceMaxLength
 
 ```js
 // stop the user from entering more character than the allowed amount (default is to inform user of overuse)
-document.getElementById('contactForm').enforceMaxLength = true;
+contactForm.enforceMaxLength = true;
 ```
 
 #### schemaId
 
 ```js
 // get the currently rendered schema id
-var schemaId = document.getElememtById('contactForm').schemaId;
+var schemaId = contactForm.schemaId;
+```
+
+#### autoResize
+
+```js
+// allow textareas and contenteditable iframe (used for format=html) to auto expand height based on content
+var schemaId = contactForm.autoResize = true;
 ```
 
 ### Methods

@@ -199,6 +199,14 @@
             get: function () {
                 return this.getAttribute('schema-id') || '';
             }
+        },
+        autoResize: {
+            get: function () {
+                return (this.getAttribute('auto-resize') === 'true');
+            },
+            set: function (value) {
+                this.setAttribute('auto-resize', value === true);
+            }
         }
     });
 
@@ -622,6 +630,10 @@
                 }
 
                 setCharactersRemaining(el);
+
+                if (self.autoResize) {
+                    autoResizeElements.call(self);
+                }
             });
 
             this.form.addEventListener('change', function(e) {
@@ -734,6 +746,10 @@
                                 });
 
                                 inputEl.contentDocument.head.innerHTML = '<style>' + css.join('\n') + '</style>';
+
+                                inputEl.contentDocument.body.addEventListener('keyup', function(e) {
+                                    autoResizeElements.call(self);
+                                });
                             }
                         }
                     }
@@ -1127,7 +1143,7 @@
                 var value = (typeof newData[key] !== 'undefined') ? newData[key] : '';
 
                 if (el) {
-                    setElementValue(el, value);
+                    setElementValue.call(self, el, value);
 
                     if (self.schema.properties[key].maxLength) {
                         setCharactersRemaining(el);
@@ -1279,6 +1295,31 @@
     /*------------------------*/
     /* PRIVATE HELPER METHODS */
     /*------------------------*/
+
+    /**
+     * Adjusts the height of iframes and textareas to show all content
+     * @returns {void}
+     */
+    function autoResizeElements() {
+
+        Array.prototype.slice.call(this.querySelectorAll('iframe')).forEach(function (item) {
+
+            var iframeBody = item.contentDocument.body;
+
+            // resize iframe to show all iframe content
+            if (iframeBody.scrollHeight > iframeBody.clientHeight) {
+                item.style.height = iframeBody.scrollHeight + 35 + 'px';
+            }
+        });
+
+        Array.prototype.slice.call(this.querySelectorAll('textarea')).forEach(function (item) {
+
+            // resize to show all content
+            if (item.scrollHeight > item.clientHeight) {
+                item.style.height = item.scrollHeight + 35 + 'px';
+            }
+        });
+    }
 
     /**
     * Walks up the DOM from the current node and returns an element where the attribute matches the value.
@@ -1558,13 +1599,20 @@
             } break;
 
             case 'iframe': {
+
                 if (el.contentDocument) {
 
+                    var iframeBody = el.contentDocument.body;
+
                     // clear the iframe
-                    el.contentDocument.body.innerHTML = '';
+                    iframeBody.innerHTML = '';
 
                     // add content as elements (removes script tags)
-                    stringToDOM(value || '', el.contentDocument.body);
+                    stringToDOM(value || '', iframeBody);
+
+                    if (this.autoResize) {
+                        autoResizeElements.call(this);
+                    }
                 }
             } break;
 

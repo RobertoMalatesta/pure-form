@@ -117,7 +117,7 @@ pure-form .pure-form-label-text {
     padding: 10px 10px 10px 0;
     min-width: 160px;
     font-size: 14px;
-    vertical-align: middle;
+    vertical-align: top;
 }
 
 pure-form .pure-form-item {
@@ -133,6 +133,12 @@ pure-form .pure-form-item {
     font-size: 14px;
     vertical-align: middle;
     width: calc(100% - 170px);
+}
+
+pure-form textarea.pure-form-item,
+pure-form iframe.pure-form-item {
+     height: 70px; /* <- must have a default height in order to not jump on first height adjustment */
+    transition: height 0.3s ease-in-out;
 }
 
 pure-form .pure-form-item[data-valid="true"] {
