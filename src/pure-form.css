@@ -135,10 +135,11 @@ pure-form .pure-form-item {
     width: calc(100% - 170px);
 }
 
-pure-form textarea.pure-form-item,
-pure-form iframe.pure-form-item {
-     height: 70px; /* <- must have a default height in order to not jump on first height adjustment */
+pure-form[auto-resize="true"] textarea.pure-form-item,
+pure-form[auto-resize="true"] iframe.pure-form-item {
+    height: 70px; /* <- must have a default height in order to not jump on first height adjustment */
     transition: height 0.3s ease-in-out;
+    overflow: hidden;
 }
 
 pure-form .pure-form-item[data-valid="true"] {
