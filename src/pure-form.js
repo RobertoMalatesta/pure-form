@@ -446,7 +446,7 @@
             return (key !== 'links' && key.indexOf('$') <= -1);
         })
         .forEach(function(key) {
-            formData[key] = schemaProperties[key].default || '';
+            formData[key] = (typeof schemaProperties[key].default !== 'undefined') ? schemaProperties[key].default : '';
         });
 
         this.value = formData;
@@ -595,7 +595,7 @@
 
                 var el = e.target;
 
-                if (el.type !== 'submit' && el.type !== 'button' && self.validateOnBlur) {
+                if (self.validateOnBlur && el.type !== 'submit' && el.type !== 'button' && el.type !== 'checkbox') {
                     validateField.call(self, el.id, el.value);
                 }
             }, true);
@@ -954,10 +954,10 @@
             // this is the schema item not the element itself
             var schemaItem = schema[key];
 
-            if (schemaItem.required && schemaItem.default) {
-                formData[key] = schemaItem.default;
-            }
-            else {
+            // if (schemaItem.required && typeof schemaItem.default !== 'undefined') {
+            //     formData[key] = schemaItem.default;
+            // }
+            // else {
 
                 // get the value from the element
                 var element = self.querySelector('[name="' + key + '"]');
@@ -1020,7 +1020,7 @@
                 if (!schemaItem.required && formData[key] === '') {
                     delete formData[key];
                 }
-            }
+            //}
         });
 
         return formData;
@@ -1159,6 +1159,7 @@
      */
     function schemaItemToHtmlElement(id, item) {
 
+        var self = this;
         var el = null;
         var type = item.items && item.items.type || item.type;
         var format = (item.items && item.items.format || item.format || '').toLowerCase();
@@ -1180,6 +1181,10 @@
                 else {
                     el = createEl(null, 'input', { name: id, id: id, type: 'number', value: '' });
                 }
+            } break;
+
+            case 'boolean': {
+                el = createEl(null, 'input', { name: id, id: id, type: 'checkbox', value: '' });
             } break;
 
             default: {
@@ -1284,6 +1289,9 @@
             if (item.description && item.description.length < this.placeholderMaxLength) {
                 el.setAttribute('placeholder', item.description || '');
             }
+
+            // add default value if set in schema
+            if (typeof item.default !== 'undefined') setElementValue.call(self, el, item.default);
         }
 
         return el;
@@ -1560,7 +1568,7 @@
     /**
      * Set the value of a HTML input/select element
      * @access private
-     * @param {HTMLElement} el - html element to set value on
+     * @param {HTMLElement} el - html element to set
      * @param {any} value - value to set
      * @returns {void}
      */
