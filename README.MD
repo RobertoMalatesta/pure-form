@@ -561,6 +561,19 @@ document.addEventListener('submit-complete', function(e) {
 });
 ```
 
+#### submit-error
+
+```js
+// the server rejected the submission for some reason
+document.addEventListener('submit-error', function(e) {
+    console.log(e.type);            // event name
+    console.log(e.target);          // actual HTML element clicked
+    console.log(e.detail.url);      // requested URL
+    console.log(e.detail.status);   // HTTP status code
+    console.log(e.detail.body);     // HTTP response body
+});
+```
+
 ### Data Types
 
 TODO: Add JSON Schema data type/format to html type documentation

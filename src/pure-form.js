@@ -1099,7 +1099,7 @@
 
         http[method](url, contentType, formData, function(err) {
             // fire error event
-            self.dispatchEvent(new CustomEvent('submit-complete', { detail: err, bubbles: true, cancelable: true }));
+            self.dispatchEvent(new CustomEvent('submit-error', { detail: err, bubbles: true, cancelable: true }));
         },
         function(data) {
 
