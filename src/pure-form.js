@@ -1764,8 +1764,9 @@
                     if (xhr.readyState === 4) {
 
                         var responseData = castResponseData(xhr.getResponseHeader('content-type'), xhr.responseText);
+                        var success = (xhr.status >= 200 && xhr.status <= 300);
 
-                        if (xhr.status === 200 || (xhr.status === 0 && xhr.responseText !== '')) {
+                        if (success || (xhr.status === 0 && xhr.responseText !== '')) {
                             callback({
                                 url: url,
                                 status: 200,
