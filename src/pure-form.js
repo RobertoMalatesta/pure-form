@@ -954,73 +954,67 @@
             // this is the schema item not the element itself
             var schemaItem = schema[key];
 
-            // if (schemaItem.required && typeof schemaItem.default !== 'undefined') {
-            //     formData[key] = schemaItem.default;
-            // }
-            // else {
+            // get the value from the element
+            var element = self.querySelector('[name="' + key + '"]');
 
-                // get the value from the element
-                var element = self.querySelector('[name="' + key + '"]');
+            if (element) {
 
-                if (element) {
+                switch (schemaItem.type) {
 
-                    switch (schemaItem.type) {
+                    case 'array': {
 
-                        case 'array': {
+                        if (schemaItem.items.format === 'textarea') {
+                            formData[key] = (element.value !== '') ? element.value.split('\n') : [];
+                        }
+                        else if (schemaItem.items.format === 'uri') {
+                            formData[key] = element.data;
+                        }
+                        else if (Array.isArray(element.value)) {
+                            formData[key] = element.value;
+                        }
+                        else {
+                            formData[key] = element.value;
+                        }
 
-                            if (schemaItem.items.format === 'textarea') {
-                                formData[key] = (element.value !== '') ? element.value.split('\n') : [];
-                            }
-                            else if (schemaItem.items.format === 'uri') {
-                                formData[key] = element.data;
-                            }
-                            else if (Array.isArray(element.value)) {
-                                formData[key] = element.value;
-                            }
-                            else {
-                                formData[key] = element.value;
-                            }
+                    } break;
 
-                        } break;
+                    case 'boolean': {
+                        formData[key] = (element.checked);
+                    } break;
 
-                        case 'boolean': {
-                            formData[key] = (element.checked);
-                        } break;
+                    case 'integer': {
+                        formData[key] = element.value ? parseInt(element.value, 10) : '';
+                    } break;
 
-                        case 'integer': {
-                            formData[key] = element.value ? parseInt(element.value, 10) : '';
-                        } break;
+                    case 'number': {
+                        formData[key] = element.value ? parseFloat(element.value) : '';
+                    } break;
 
-                        case 'number': {
-                            formData[key] = element.value ? parseFloat(element.value) : '';
-                        } break;
+                    default: {
 
-                        default: {
+                        var format = schemaItem.format || '';
 
-                            var format = schemaItem.format || '';
+                        if (format === 'html') {
+                            formData[key] = (element.contentDocument.body.innerHTML || '').trim();
+                        }
+                        else if (format.indexOf('custom:') === 0 && element.type === 'file' && element.files && element.files[0]) {
+                            formData[key] = (element.files.length === 1) ? element.data[0] : element.data;
+                        }
+                        else {
+                            formData[key] = (element.value || '').trim();
+                        }
 
-                            if (format === 'html') {
-                                formData[key] = (element.contentDocument.body.innerHTML || '').trim();
-                            }
-                            else if (format.indexOf('custom:') === 0 && element.type === 'file' && element.files && element.files[0]) {
-                                formData[key] = (element.files.length === 1) ? element.data[0] : element.data;
-                            }
-                            else {
-                                formData[key] = (element.value || '').trim();
-                            }
-
-                            if (schemaItem.maxLength) {
-                                formData[key] = formData[key].substr(0, Math.max(schemaItem.maxLength, 0));
-                            }
-                        } break;
-                    }
+                        if (schemaItem.maxLength) {
+                            formData[key] = formData[key].substr(0, Math.max(schemaItem.maxLength, 0));
+                        }
+                    } break;
                 }
+            }
 
-                // remove keys with empty strings
-                if (!schemaItem.required && formData[key] === '') {
-                    delete formData[key];
-                }
-            //}
+            // remove keys with empty strings
+            if (!schemaItem.required && formData[key] === '') {
+                delete formData[key];
+            }
         });
 
         return formData;
@@ -1469,7 +1463,7 @@
             }
 
             // check required status
-            if (schemaItem.required && (!value || (Array.isArray(value) && value.length <= 0))) {
+            if (schemaItem.required && ((schemaItem.type !== 'boolean' && !value) || (Array.isArray(value) && value.length <= 0))) {
                 return 'This field must have a value';
             }
 
