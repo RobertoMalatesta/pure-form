@@ -240,7 +240,7 @@
                 if (link.rel.toLowerCase().indexOf('describedby:') === 0) {
                     this.src = link.href;
                 }
-                else {
+                else if (self.isValid()) {
 
                     // fire the submit event, allowing listeners to cancel the submission
                     var allowSubmit = self.dispatchEvent(new CustomEvent('submit', { bubbles: true, cancelable: true }));
@@ -1093,9 +1093,6 @@
         var contentType = (linkDescObject.enctype || 'application/json');
 
         self.clearErrors();
-
-        // exit if not valid
-        if (!self.isValid(formData)) return;
 
         http[method](url, contentType, formData, function(err) {
             // fire error event
