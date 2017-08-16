@@ -67,7 +67,7 @@ describe('pure-form methods', function () {
             surname: 'Gates ' + (new Date()).getTime()
         };
 
-        el.addEventListener('schema-loaded', function(e) {
+        el.addEventListener('pure-form-schema-loaded', function(e) {
 
             // set the value
             el.value = testData;
@@ -94,7 +94,7 @@ describe('pure-form methods', function () {
             surname: 'Gates ' + (new Date()).getTime()
         };
 
-        el.addEventListener('schema-loaded', function(e) {
+        el.addEventListener('pure-form-schema-loaded', function(e) {
 
             // set the value
             el.value = testData;
@@ -129,7 +129,7 @@ describe('pure-form methods', function () {
         var invalidErrorMessage = 'Error' + (new Date()).getTime();
 
         // once rendered set a field invalid
-        el.addEventListener('render-complete', function(e) {
+        el.addEventListener('pure-form-render-complete', function(e) {
 
             el.setError('title', invalidErrorMessage);
 
@@ -158,7 +158,7 @@ describe('pure-form methods', function () {
         var invalidErrorMessage = 'Error' + (new Date()).getTime();
 
         // once rendered set a field invalid
-        el.addEventListener('render-complete', function(e) {
+        el.addEventListener('pure-form-render-complete', function(e) {
 
             el.setError('title', invalidErrorMessage);
 

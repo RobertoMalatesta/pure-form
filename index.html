@@ -16,7 +16,7 @@
             // list to all pure-form events!
             window.onload = function(){
 
-                document.addEventListener('submit', function(e) {
+                document.addEventListener('pure-form-submit', function(e) {
                     console.log('--------------------');
                     console.log(e.type);            // event name
                     console.log(e.target);          // actual HTML element clicked
@@ -25,7 +25,7 @@
                 });
 
                 // schema failed to load
-                document.addEventListener('schema-error', function(e) {
+                document.addEventListener('pure-form-schema-error', function(e) {
                     console.log('--------------------');
                     console.log(e.type);            // event name
                     console.log(e.target);          // actual HTML element clicked
@@ -36,7 +36,7 @@
                 });
 
                 // schema loaded
-                document.addEventListener('schema-loaded', function(e) {
+                document.addEventListener('pure-form-schema-loaded', function(e) {
                     console.log('--------------------');
                     console.log(e.type);            // event name
                     console.log(e.target);          // actual HTML element clicked
@@ -47,14 +47,14 @@
                 });
 
                 // render has complete
-                document.addEventListener('render-complete', function(e) {
+                document.addEventListener('pure-form-render-complete', function(e) {
                     console.log('--------------------');
                     console.log(e.type);            // event name
                     console.log(e.target);          // actual HTML element clicked
                     console.log('--------------------');
                 });
 
-                document.addEventListener('value-set', function(e) {
+                document.addEventListener('pure-form-value-set', function(e) {
                     console.log('--------------------');
                     console.log(e.type);            // event name
                     console.log(e.target);          // actual HTML element clicked
@@ -63,7 +63,7 @@
                     console.log('--------------------');
                 })
 
-                document.addEventListener('button-clicked', function(e) {
+                document.addEventListener('pure-form-button-clicked', function(e) {
                     console.log('--------------------');
                     console.log(e.type);            // event name
                     console.log(e.target);          // actual HTML element clicked
@@ -73,7 +73,7 @@
                 });
 
                 // data submitted and response recieved
-                document.addEventListener('submit-complete', function(e) {
+                document.addEventListener('pure-form-submit-complete', function(e) {
                     console.log('--------------------');
                     console.log(e.type);            // event name
                     console.log(e.target);          // actual HTML element clicked
@@ -83,7 +83,7 @@
                     console.log('--------------------');
                 });
 
-                document.addEventListener('validation-failed', function(e) {
+                document.addEventListener('pure-form-validation-failed', function(e) {
                     console.log('--------------------');
                     console.log(e.type);        // event name
                     console.log(this);          // pure form element
@@ -92,7 +92,7 @@
                     console.log('--------------------');
                 });
 
-                document.addEventListener('validation-passed', function(e) {
+                document.addEventListener('pure-form-validation-passed', function(e) {
                     console.log('--------------------');
                     console.log(e.type);        // event name
                     console.log(this);          // pure form element

@@ -321,7 +321,7 @@ describe('pure-form rendering', function () {
 
         var el = document.createElement('pure-form');
 
-        el.addEventListener('schema-loaded', function() {
+        el.addEventListener('pure-form-schema-loaded', function() {
             expect(el.schema).toBeDefined();
             expect(el.schema.id).toEqual('contact-form');
             done();
@@ -334,7 +334,7 @@ describe('pure-form rendering', function () {
 
         var el = document.createElement('pure-form');
 
-        el.addEventListener('schema-loaded', function() {
+        el.addEventListener('pure-form-schema-loaded', function() {
             expect(el.schema).toBeDefined();
             expect(el.querySelector('.pure-form-form').tagName).toEqual('FORM');
             done();
@@ -349,7 +349,7 @@ describe('pure-form rendering', function () {
 
         el.useFormTag = false;
 
-        el.addEventListener('render-complete', function() {
+        el.addEventListener('pure-form-render-complete', function() {
             expect(el.schema).toBeDefined();
             expect(el.querySelector('.pure-form-form').tagName).toEqual('DIV');
             done();
@@ -363,7 +363,7 @@ describe('pure-form rendering', function () {
         var el = document.createElement('pure-form');
 
         // preform test when render is complete
-        el.addEventListener('render-complete', function() {
+        el.addEventListener('pure-form-render-complete', function() {
 
             var label = el.querySelector('label[for="surname"]');
 
@@ -389,7 +389,7 @@ describe('pure-form rendering', function () {
         var el = document.createElement('pure-form');
 
         // preform test when render is complete
-        el.addEventListener('render-complete', function() {
+        el.addEventListener('pure-form-render-complete', function() {
 
             var label = el.querySelector('label[for="surname"]');
             var maxLength = inlineSchema.properties.surname.maxLength;
