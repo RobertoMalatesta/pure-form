@@ -58,11 +58,11 @@ describe('pure-form events', function () {
         });
     });
 
-    it('should fire schema-loaded event when schema loaded', function(done) {
+    it('should fire pure-form-schema-loaded event when schema loaded', function(done) {
 
         var el = document.createElement('pure-form');
 
-        el.addEventListener('schema-loaded', function(e) {
+        el.addEventListener('pure-form-schema-loaded', function(e) {
             expect(e).toBeDefined();
 
             expect(this).toEqual(el);
@@ -81,11 +81,11 @@ describe('pure-form events', function () {
         el.src = tempSchemaUrl;
     });
 
-    it('should fire schema-error event when schema fails to load', function(done) {
+    it('should fire pure-form-schema-error event when schema fails to load', function(done) {
 
         var el = document.createElement('pure-form');
 
-        el.addEventListener('schema-error', function(e) {
+        el.addEventListener('pure-form-schema-error', function(e) {
             expect(e).toBeDefined();
 
             expect(this).toEqual(el);
@@ -103,11 +103,11 @@ describe('pure-form events', function () {
         el.src = schema404Url;
     });
 
-    it('should fire render-complete once rendering has complete', function(done) {
+    it('should fire pure-form-render-complete once rendering has complete', function(done) {
 
         var el = document.createElement('pure-form');
 
-        el.addEventListener('render-complete', function(e) {
+        el.addEventListener('pure-form-render-complete', function(e) {
 
             var form = el.querySelector('.pure-form-form');
             var labels = el.querySelectorAll('.pure-form-label');
@@ -125,14 +125,14 @@ describe('pure-form events', function () {
         el.src = tempSchemaUrl;
     });
 
-    it('should fire button-clicked event when button clicked', function(done) {
+    it('should fire pure-form-button-clicked event when button clicked', function(done) {
 
         var el = document.createElement('pure-form');
         var buttonLabel = 'Random' + (new Date()).getTime();
 
         el.buttons = buttonLabel;
 
-        el.addEventListener('button-clicked', function(e) {
+        el.addEventListener('pure-form-button-clicked', function(e) {
             expect(e).toBeDefined();
             expect(e.target).toEqual(el);
             expect(e.detail.value).toEqual(buttonLabel);
@@ -141,7 +141,7 @@ describe('pure-form events', function () {
             done();
         });
 
-        el.addEventListener('render-complete', function() {
+        el.addEventListener('pure-form-render-complete', function() {
 
             // grab a button
             var button = el.querySelector('input[type="submit"]');
@@ -157,7 +157,7 @@ describe('pure-form events', function () {
         el.src = tempSchemaUrl;
     });
 
-    it('should fire value-set event when .value is set', function(done) {
+    it('should fire pure-form-value-set event when .value is set', function(done) {
 
         var el = document.createElement('pure-form');
         var oldValue = null;
@@ -173,7 +173,7 @@ describe('pure-form events', function () {
             message: 'Test' + now
         };
 
-        el.addEventListener('value-set', function(e) {
+        el.addEventListener('pure-form-value-set', function(e) {
 
             // check event data
             expect(e).toBeDefined();
@@ -197,7 +197,7 @@ describe('pure-form events', function () {
             done();
         });
 
-        el.addEventListener('render-complete', function(e) {
+        el.addEventListener('pure-form-render-complete', function(e) {
             oldValue = e.target.value;
             e.target.value = testValue;
         });
@@ -207,7 +207,7 @@ describe('pure-form events', function () {
     //
 
 
-    it('should fire submit event when submitted', function(done) {
+    it('should fire pure-form-submit event when submitted', function(done) {
 
         var el = document.createElement('pure-form');
 
@@ -225,7 +225,7 @@ describe('pure-form events', function () {
             message: 'Test' + now
         };
 
-        el.addEventListener('submit', function(e) {
+        el.addEventListener('pure-form-submit', function(e) {
 
             // check event data
             expect(e).toBeDefined();
@@ -234,7 +234,7 @@ describe('pure-form events', function () {
             done();
         });
 
-        el.addEventListener('schema-loaded', function(e) {
+        el.addEventListener('pure-form-schema-loaded', function(e) {
             e.target.value = testValue;
             e.target.submit();
         });

@@ -230,7 +230,7 @@
         });
 
         // when a button is clicked, check if we have a link object for it and if so, execute the request
-        self.addEventListener('button-clicked', function(e) {
+        self.addEventListener('pure-form-button-clicked', function(e) {
 
             var link = e.detail.link;
 
@@ -243,7 +243,7 @@
                 else if (self.isValid()) {
 
                     // fire the submit event, allowing listeners to cancel the submission
-                    var allowSubmit = self.dispatchEvent(new CustomEvent('submit', { bubbles: true, cancelable: true }));
+                    var allowSubmit = self.dispatchEvent(new CustomEvent('pure-form-submit', { bubbles: true, cancelable: true }));
 
                     if (allowSubmit) {
 
@@ -422,10 +422,10 @@
 
         if (!silent) {
             if (!valid) {
-                this.dispatchEvent(new CustomEvent('validation-failed', { bubbles: true, cancelable: true }));
+                this.dispatchEvent(new CustomEvent('pure-form-validation-failed', { bubbles: true, cancelable: true }));
             }
             else {
-                this.dispatchEvent(new CustomEvent('validation-passed', { bubbles: true, cancelable: true }));
+                this.dispatchEvent(new CustomEvent('pure-form-validation-passed', { bubbles: true, cancelable: true }));
             }
         }
 
@@ -471,7 +471,7 @@
             if (link) {
 
                 // fire the submit event, allowing listeners to cancel the submission
-                allowSubmit = this.dispatchEvent(new CustomEvent('submit', { bubbles: true, cancelable: true }));
+                allowSubmit = this.dispatchEvent(new CustomEvent('pure-form-submit', { bubbles: true, cancelable: true }));
 
                 // if consumer does not cancel the event, proceed with submit
                 if (allowSubmit) {
@@ -482,7 +482,7 @@
         else if (this.form && this.form.tagName === 'FORM' && typeof this.form.submit === 'function') {
 
             // fire the submit event, allowing listeners to cancel the submission
-            allowSubmit = this.dispatchEvent(new CustomEvent('submit', { bubbles: true, cancelable: true }));
+            allowSubmit = this.dispatchEvent(new CustomEvent('pure-form-submit', { bubbles: true, cancelable: true }));
 
             if (allowSubmit) {
                 this.form.submit();
@@ -525,7 +525,7 @@
 
         http.get(schemaUrl, 'application/json', null, function(error) {
             // fire error event
-            self.dispatchEvent(new CustomEvent('schema-error', { detail: error, bubbles: true, cancelable: true }));
+            self.dispatchEvent(new CustomEvent('pure-form-schema-error', { detail: error, bubbles: true, cancelable: true }));
         },
         function(data) {
 
@@ -533,7 +533,7 @@
             self.schema = data.body;
 
             // fire onload event
-            self.dispatchEvent(new CustomEvent('schema-loaded', { detail: data, bubbles: true, cancelable: true }));
+            self.dispatchEvent(new CustomEvent('pure-form-schema-loaded', { detail: data, bubbles: true, cancelable: true }));
 
             // apply session stored form data if it exists
             if (self.persist && window.sessionStorage && window.sessionStorage[self.src]) {
@@ -579,7 +579,7 @@
                 // hook form submit event
                 this.form.onsubmit = function (e) {
 
-                    var allowSubmit = self.dispatchEvent(new CustomEvent('submit', { bubbles: true, cancelable: true }));
+                    var allowSubmit = self.dispatchEvent(new CustomEvent('pure-form-submit', { bubbles: true, cancelable: true }));
 
                     if (!allowSubmit || !self.disableValidation || !self.isValid()) {
                         e.preventDefault();
@@ -767,7 +767,7 @@
             renderButtons.call(this);
 
             // fire onload event
-            self.dispatchEvent(new CustomEvent('render-complete', { bubbles: true, cancelable: true }));
+            self.dispatchEvent(new CustomEvent('pure-form-render-complete', { bubbles: true, cancelable: true }));
         }
     }
 
@@ -880,7 +880,7 @@
                     switch (el.type) {
 
                         case 'submit': {
-                            self.dispatchEvent(new CustomEvent('button-clicked', { detail: { value: el.value }, bubbles: true, cancelable: true }));
+                            self.dispatchEvent(new CustomEvent('pure-form-button-clicked', { detail: { value: el.value }, bubbles: true, cancelable: true }));
                         } break;
 
                         case 'button': {
@@ -892,7 +892,7 @@
                             eventData.link = (self.schema && Array.isArray(self.schema.links)) ? arrayWhere(self.schema.links, 'rel', rel, true) : null;
 
                             // fire button-clicked event
-                            self.dispatchEvent(new CustomEvent('button-clicked', { detail: eventData, bubbles: true, cancelable: true }));
+                            self.dispatchEvent(new CustomEvent('pure-form-button-clicked', { detail: eventData, bubbles: true, cancelable: true }));
 
                         } break;
                     }
@@ -1090,12 +1090,12 @@
 
         http[method](url, contentType, formData, function(err) {
             // fire error event
-            self.dispatchEvent(new CustomEvent('submit-error', { detail: err, bubbles: true, cancelable: true }));
+            self.dispatchEvent(new CustomEvent('pure-form-submit-error', { detail: err, bubbles: true, cancelable: true }));
         },
         function(data) {
 
             // fire onload event
-            self.dispatchEvent(new CustomEvent('submit-complete', { detail: data, bubbles: true, cancelable: true }));
+            self.dispatchEvent(new CustomEvent('pure-form-submit-complete', { detail: data, bubbles: true, cancelable: true }));
 
             if (data.body && data.body.$schema) {
                 // render next schema
@@ -1122,7 +1122,7 @@
         };
 
         // fire onload event
-        var allow = self.dispatchEvent(new CustomEvent('value-set', { detail: eventData, bubbles: true, cancelable: true }));
+        var allow = self.dispatchEvent(new CustomEvent('pure-form-value-set', { detail: eventData, bubbles: true, cancelable: true }));
 
         // user did not cancel, update form
         if (allow) {

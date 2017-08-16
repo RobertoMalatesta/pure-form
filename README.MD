@@ -266,7 +266,7 @@ contactForm.description = 'Got a question? Get in touch.';
 // Add Ok and Cancel buttons
 contactForm.buttons = 'Ok, Cancel';
 
-contactForm.addEventListener('button-clicked', function(e) {
+contactForm.addEventListener('pure-form-button-clicked', function(e) {
   if (e.detail === 'Ok') {
     // Ok clicked, do something
   }
@@ -422,22 +422,22 @@ pure-form fires the following events _(additional information is stored event.de
 
 Event                                   | Description
 --------------------------------------- | -------------------------------------------------------------------
-[submit](#submit)                       | Fired when the form is submitted to the server
-[schema-loaded](#schema-loaded)         | Fired when `.src` url is successfully loaded
-[schema-error](#schema-error)           | Fired when `.src` url fails to return a JSON Schema
-[render-complete](#render-complete)     | Fired when pure-form completes rendering
-[button-clicked](#button-clicked)       | Fired when a pure-form button is clicked
-[value-set](#value-set)                 | Fired when the form value is set
-[validation-failed](#validation-failed) | Validation failed, some field items are invalid
-[validation-passed](#validation-passed) | Validation passed, all field values are valid
-[submit-complete](#submit-complete)     | Data posted to server and response received
+[pure-form-submit](#pure-form-submit)                       | Fired when the form is submitted to the server
+[pure-form-schema-loaded](#pure-form-schema-loaded)         | Fired when `.src` url is successfully loaded
+[pure-form-schema-error](#pure-form-schema-error)           | Fired when `.src` url fails to return a JSON Schema
+[pure-form-render-complete](#pure-form-render-complete)     | Fired when pure-form completes rendering
+[pure-form-button-clicked](#pure-form-button-clicked)       | Fired when a pure-form button is clicked
+[pure-form-value-set](#pure-form-value-set)                 | Fired when the form value is set
+[pure-form-validation-failed](#pure-form-validation-failed) | Validation failed, some field items are invalid
+[pure-form-validation-passed](#pure-form-validation-passed) | Validation passed, all field values are valid
+[pure-form-submit-complete](#pure-form-submit-complete)     | Data posted to server and response received
 
-#### submit
+#### pure-form-submit
 
 ```js
 var contactForm = document.getElementById('contactForm');
 
-contactForm.addEventListener('submit', function(e) {
+contactForm.addEventListener('pure-form-submit', function(e) {
     console.log(this);            // pure form element
     console.log(e.target);        // pure form element
     console.log(e.detail.url);    // schema URL
@@ -449,14 +449,14 @@ contactForm.addEventListener('submit', function(e) {
 contactForm.submit();
 ```
 
-#### schema-loaded
+#### pure-form-schema-loaded
 
 Fires when the JSON schema has loaded from `.src` url and assigned to `.schema` property.
 
 ```js
 var contactForm = document.getElementById('contactForm');
 
-contactForm.addEventListener('schema-loaded', function(e) {
+contactForm.addEventListener('pure-form-schema-loaded', function(e) {
     console.log(this);            // pure form element
     console.log(e.target);        // pure form element
     console.log(e.detail.url);    // schema URL
@@ -465,14 +465,14 @@ contactForm.addEventListener('schema-loaded', function(e) {
 });
 ```
 
-#### schema-error
+#### pure-form-schema-error
 
 Fires when JSON schema fails to load for whatever reason.
 
 ```js
 var contactForm = document.getElementById('contactForm');
 
-contactForm.addEventListener('schema-error', function(e) {
+contactForm.addEventListener('pure-form-schema-error', function(e) {
     console.log(this);            // pure form element
     console.log(e.target);        // pure form element
     console.log(e.detail.url);    // schema URL
@@ -481,20 +481,20 @@ contactForm.addEventListener('schema-error', function(e) {
 });
 ```
 
-#### render-complete
+#### pure-form-render-complete
 
 Fires when pure-form rendering has completed.
 
 ```js
 var contactForm = document.getElementById('contactForm');
 
-contactForm.addEventListener('render-complete', function(e) {
+contactForm.addEventListener('pure-form-render-complete', function(e) {
     console.log(this);      // pure form element
     console.log(e.target);  // pure form element
 });
 ```
 
-#### button-clicked
+####  pure-form-button-clicked
 
 ```html
 <pure-form id="contact" src="path-to-json-schema.json" buttons="Delete,Disable"></pure-form>
@@ -503,56 +503,56 @@ contactForm.addEventListener('render-complete', function(e) {
 ```js
 var contactForm = document.getElementById('contactForm');
 
-contactForm.addEventListener('button-clicked', function(e) {
+contactForm.addEventListener('pure-form-button-clicked', function(e) {
     console.log(e.target);        // pure form element
     console.log(e.detail.value);  // value of button clicked (Delete or Disable)
     console.log(e.detail.link);   // associated schema link object if present
 });
 ```
 
-#### value-set
+#### pure-form-value-set
 
 ```js
 var contactForm = document.getElementById('contactForm');
 
-contactForm.addEventListener('value-set', function(e) {
+contactForm.addEventListener('pure-form-value-set', function(e) {
     console.log(e.target);          // pure form element
     console.log(e.detail.oldValue); // OLD value of the form before the new value was set
     console.log(e.detail.newValue); // NEW value of the form
 });
 ```
 
-#### validation-failed
+#### pure-form-validation-failed
 
 Fires when pure-form .isValid method returns false.
 
 ```js
 var contactForm = document.getElementById('contactForm');
 
-contactForm.addEventListener('validation-failed', function(e) {
+contactForm.addEventListener('pure-form-validation-failed', function(e) {
     console.log(e.target);      // pure form element
     console.log(e.target.value) // form value
 });
 ```
 
-#### validation-passed
+#### pure-form-validation-passed
 
 Fires when pure-form .isValid method returns true.
 
 ```js
 var contactForm = document.getElementById('contactForm');
 
-contactForm.addEventListener('validation-passed', function(e) {
+contactForm.addEventListener('pure-form-validation-passed', function(e) {
     console.log(e.target);      // pure form element
     console.log(e.target.value) // form value
 });
 ```
 
-#### submit-complete
+#### pure-form-submit-complete
 
 ```js
 // data submitted and response received
-document.addEventListener('submit-complete', function(e) {
+document.addEventListener('pure-form-submit-complete', function(e) {
     console.log(e.type);            // event name
     console.log(e.target);          // actual HTML element clicked
     console.log(e.detail.url);      // requested URL
@@ -561,11 +561,11 @@ document.addEventListener('submit-complete', function(e) {
 });
 ```
 
-#### submit-error
+#### pure-form-submit-error
 
 ```js
 // the server rejected the submission for some reason
-document.addEventListener('submit-error', function(e) {
+document.addEventListener('pure-form-submit-error', function(e) {
     console.log(e.type);            // event name
     console.log(e.target);          // actual HTML element clicked
     console.log(e.detail.url);      // requested URL
