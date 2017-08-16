@@ -385,7 +385,7 @@ document.getElementById('contactForm').clearErrors();
 
 ```js
 // set a custom error message on the phone field
-document.getElementById('contactForm').setInvalid('phone', 'Phone number is missing country code');
+document.getElementById('contactForm').setError('phone', 'Phone number is missing country code');
 ```
 
 #### isValid(object, silent)
