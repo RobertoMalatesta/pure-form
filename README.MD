@@ -22,6 +22,8 @@ Try the [demo](https://codepen.io/anon/pen/brbGza). Works in all modern web/mobi
 * Get/set the value of the entire form using JSON
 * Displays character limits (including characters remaining) when maxLength set
 * Preserves partially completed form values between refreshes _(optional)_
+* Renders a button for each REST endpoint included in the schema links collection
+* Automatically executes REST request when button clicked
 
 **Table of Contents**
 
