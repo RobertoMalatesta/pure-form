@@ -80,11 +80,12 @@ pure-form .pure-form-label[data-characters-remaining]:after {
     font-size: 12px;
     position: absolute;
     right: 10px;
-    top: -8px;
-    padding: 0 8px;
-    border-radius: 2px;
+    top: -10px;
+    padding: 2px 8px;
+    border-radius: 8px;
     background: #fff;
     text-transform: lowercase;
+    border: 1px solid #ddd;
 }
 
 
@@ -247,5 +248,6 @@ pure-form ::-moz-placeholder  { font-size: 14px; }
         clear: both;
         float: none;
         display: block;
+        background-color: transparent;
     }
 }
