@@ -1769,7 +1769,7 @@
                         if (success || (xhr.status === 0 && xhr.responseText !== '')) {
                             callback({
                                 url: url,
-                                status: 200,
+                                status: xhr.status,
                                 body: responseData
                             });
                         }
