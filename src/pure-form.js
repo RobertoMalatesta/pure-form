@@ -179,6 +179,14 @@
                 this.setAttribute('tab-on-enter', value === true);
             }
         },
+        submitOnEnter: {
+            get: function () {
+                return (this.getAttribute('submit-on-enter') === 'true');
+            },
+            set: function (value) {
+                this.setAttribute('submit-on-enter', value === true);
+            }
+        },
         useFormTag: {
             get: function () {
                 return (this.getAttribute('use-form-tag') !== 'false');
@@ -605,10 +613,10 @@
 
                 var el = e.target;
 
-                if (self.tabOnEnter) {
+                // only intercept keyup for enter key on inputs
+                if (e.keyCode === 13 && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT')) {
 
-                    // only intercept keyup for enter key on inputs
-                    if (e.keyCode === 13 && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT')) {
+                    if (self.tabOnEnter) {
 
                         e.preventDefault();
 
@@ -626,6 +634,17 @@
                                 }
                             }
                         });
+                    }
+                    else if (self.submitOnEnter) {
+
+                        e.preventDefault();
+
+                        // find the first button and click it
+                        var button = (self.querySelectorAll('.pure-form-button') || [])[0];
+
+                        if (button) {
+                            button.click();
+                        }
                     }
                 }
 

@@ -80,6 +80,7 @@ describe('pure-form interface', function () {
         expect(typeof el.autofocusError).toEqual('boolean');
         expect(typeof el.validateOnBlur).toEqual('boolean');
         expect(typeof el.tabOnEnter).toEqual('boolean');
+        expect(typeof el.submitOnEnter).toEqual('boolean');
         expect(typeof el.useFormTag).toEqual('boolean');
         expect(typeof el.enforceMaxLength).toEqual('boolean');
         expect(typeof el.schemaId).toEqual('string');
@@ -107,6 +108,7 @@ describe('pure-form interface', function () {
         expect(el.autofocusError).toEqual(false);
         expect(el.validateOnBlur).toEqual(false);
         expect(el.tabOnEnter).toEqual(false);
+        expect(el.submitOnEnter).toEqual(false);
         expect(el.useFormTag).toEqual(true);
         expect(el.enforceMaxLength).toEqual(false);
         expect(el.schemaId).toEqual('');

@@ -161,6 +161,7 @@ Attribute                | Description
 `autofocus-error`        | If set to true, sets focus to the first input containing an error after validation
 `validate-on-blur`       | If set to true, validates each form field as it looses focus _(disabled .autofocusError)_
 `tab-on-enter`           | If true, moves focus to the next field in the form when enter is pressed
+`submit-on-enter`        | If true, clicks the first button in the form when the enter key is pressed
 `use-form-tag`           | If false, uses a DIV rather than a HTML FORM tag _(helps overcome iOS GO button issue)_
 `enforce-max-length`     | If true, does not allow the user to enter more characters that the value of schema maxLength property
 `schema-id`              | the id of the current schema _(readonly)_
@@ -187,6 +188,7 @@ Property                                       | Type      | Default | Descripti
 [autofocusError](#autofocuserror)              | _boolean_ | `false`                             | If set to true, sets focus to the first input containing an error after validation
 [validateOnBlur](#validateonblur)              | _boolean_ | `false`                             | If set to true, validates each form field as it looses focus _(disabled .autofocusError)_
 [tabOnEnter](#tabonenter)                      | _boolean_ | `false`                             | If true, moves focus to the next field in the form when enter is pressed
+[submitOnEnter](#submitonenter)                | _boolean_ | `false`                             | If true, clicks the first button in the form as would a normal HTML form
 [useFormTag](#useformtag)                      | _boolean_ | `true`                              | If false, uses a DIV rather than a HTML FORM tag _(helps overcome iOS GO button issue)_
 [enforceMaxLength](#enforcemaxlength)          | _boolean_ | `false`                             | If true, does not allow the user to enter more characters that the value of schema maxLength property
 [schemaId](#schemaId)                          | _string_  | _empty_                             | id valid of the currently rendered schema _(readonly)_
@@ -316,6 +318,13 @@ contactForm.validateOnBlur = true;
 ```js
 // move to the next field when the user presses the enter key
 contactForm.tabOnEnter = true;
+```
+
+### submitOnEnter
+
+```js
+// click the first button in the form when enter pressed similar to regular HTML form
+contactForm.submitOnEnter = true;
 ```
 
 #### useFormTag
