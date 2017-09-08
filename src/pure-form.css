@@ -82,10 +82,9 @@ pure-form .pure-form-label[data-characters-remaining]:after {
     right: 10px;
     top: -10px;
     padding: 2px 8px;
-    border-radius: 8px;
     background: #fff;
     text-transform: lowercase;
-    border: 1px solid #ddd;
+    animation: pure-form-error-fadein 0.3s ease-in-out;
 }
 
 
@@ -250,4 +249,12 @@ pure-form ::-moz-placeholder  { font-size: 14px; }
         display: block;
         background-color: transparent;
     }
+}
+
+/* --- ANIMATIONS --- */
+
+@keyframes pure-form-error-fadein {
+    0% { opacity: 0; transform: scale(1); }
+    50% { opacity: .5; transform: scale(1.1); }
+    100% { opacity: 1; transform: scale(1); }
 }
