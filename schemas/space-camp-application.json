@@ -61,6 +61,11 @@
       "type": "string",
       "format": "custom:input;type=file,accept=image/*",
       "required": true
+    },
+    "over16": {
+      "title": "Over the age of 16",
+      "id": "order8",
+      "type": "boolean"
     }
   }
 }
