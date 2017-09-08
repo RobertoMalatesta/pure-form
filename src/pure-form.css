@@ -139,7 +139,7 @@ pure-form [type="checkbox"] {
     position: relative;
     box-shadow: inset 0 0 0px 1px #d5d5d5;
     height: 30px;
-    width: 66px;
+    width: 66px !important;
     border-radius: 15px;
     cursor: pointer;
     background: rgba(213, 213, 213, 0.1);
