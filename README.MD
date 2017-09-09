@@ -156,6 +156,7 @@ Attribute                | Description
 `description`            | The description before the form
 `buttons`                | Comma separated list of button labels _(excludes buttons created by schema links)_
 `persist`                | Partially completed forms survive refreshes _(until browser is closed)_
+`storage`                | location to store presistant content, defaults to sessionStorage
 `disable-validation`     | Disables all form validation
 `placeholder-max-length` | Max description length to be used as placeholder, values greater than are inlined
 `autofocus-error`        | If set to true, sets focus to the first input containing an error after validation
@@ -183,6 +184,7 @@ Property                                       | Type      | Default | Descripti
 [description](#description)                    | _string_  | `""`                                | The description before the form
 [buttons](#buttons)                            | _string_  | `""`                                | Comma separated list of button labels _(excludes buttons created by schema links)_
 [persist](#persist)                            | _boolean_ | `false`                             | Partially completed forms survive refreshes _(until browser is closed)_
+[storage](#storage)                            | _string_  | `sessionStorage`                    | Location to store partially completed content
 [disableValidation](#disablevalidation)        | _boolean_ | `false`                             | Disables all form validation
 [placeholderMaxLength](#placeholdermaxlength)  | _boolean_ | `75`                                | Max description length to be used as placeholder, values greater than are inlined
 [autofocusError](#autofocuserror)              | _boolean_ | `false`                             | If set to true, sets focus to the first input containing an error after validation
@@ -282,6 +284,13 @@ contactForm.addEventListener('pure-form-button-clicked', function(e) {
 ```js
 // preserve form data between page reloads
 contactForm.persist = true;
+```
+
+#### storage
+
+```js
+// store partially complete content in localStorage
+contactForm.storage = 'localStorage';
 ```
 
 #### disableValidation

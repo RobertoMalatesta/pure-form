@@ -136,6 +136,14 @@
                 this.setAttribute('persist', value === true);
             }
         },
+        storage: {
+            get: function () {
+                return this.getAttribute('storage') || 'sessionStorage';
+            },
+            set: function (value) {
+                this.setAttribute('storage', value || 'sessionStorage');
+            }
+        },
         disableValidation: {
             get: function () {
                 return (this.getAttribute('disable-validation') === 'true');
@@ -259,6 +267,14 @@
                         submitViaLink.call(this, link);
                     }
                 }
+            }
+        });
+
+        self.addEventListener('change', function(e) {
+
+            // update session stored form data
+            if (self.persist && window[self.storage]) {
+                window[self.storage][self.src] = JSON.stringify(getRawData.call(self));
             }
         });
     };
@@ -416,11 +432,6 @@
             }
         });
 
-        // update session stored form data
-        if (this.persist && window.sessionStorage) {
-            window.sessionStorage[this.src] = JSON.stringify(getRawData.call(this));
-        }
-
         if (!silent && this.autofocusError) {
             var firstErrorEl = this.querySelector('form [data-valid="false"]');
             if (firstErrorEl) {
@@ -543,14 +554,12 @@
             // fire onload event
             self.dispatchEvent(new CustomEvent('pure-form-schema-loaded', { detail: data, bubbles: true, cancelable: true }));
 
+            // get the storage object if it exists
+            var storage = window[self.storage];
+
             // apply session stored form data if it exists
-            if (self.persist && window.sessionStorage && window.sessionStorage[self.src]) {
-
-                var formData = window.sessionStorage[self.src] || '';
-
-                if (formData !== '') {
-                    populateForm.call(self, JSON.parse(formData));
-                }
+            if (self.persist && storage && storage[self.src]) {
+                populateForm.call(self, JSON.parse(storage[self.src]));
             }
         });
     }
@@ -753,6 +762,11 @@
                             if (!self.readonly && !item.readonly) {
                                 // make it content editable if it's not readonly
                                 inputEl.contentDocument.body.contentEditable = true;
+
+                                // fire element change event whenever keyup fires
+                                inputEl.contentDocument.body.addEventListener('keyup', function() {
+                                    inputEl.dispatchEvent(new CustomEvent('change', { bubbles: true, cancelable: true }));
+                                });
                             }
 
                             // TODO: load styles
@@ -770,6 +784,13 @@
                                     autoResizeElements.call(self);
                                 });
                             }
+                        }
+                        else if (inputEl.tagName === 'INPUT' && inputEl.type === 'checkbox') {
+
+                            // fire change event when checkbox clicked
+                            inputEl.addEventListener('click', function(e) {
+                                e.target.dispatchEvent(new CustomEvent('change', { bubbles: true, cancelable: true }));
+                            });
                         }
                     }
                     else {
@@ -1046,7 +1067,8 @@
      */
     function getRawData() {
 
-        var schema = this.schema.properties;
+        var self = this;
+        var schema = self.schema.properties;
         var formData = {};
 
         // get a list of keys we're interested in
@@ -1058,7 +1080,7 @@
         keys.forEach(function(key) {
 
             var item = schema[key];
-            var element = this.querySelector('[name="' + key + '"]');
+            var element = self.querySelector('[name="' + key + '"]');
 
             if (element) {
 
@@ -1077,6 +1099,16 @@
 
                     case 'boolean': {
                         formData[key] = (element.checked);
+                    } break;
+
+                    case 'string': {
+
+                        if (item.format === 'html' && element.contentDocument) {
+                            formData[key] = (element.contentDocument.body.innerHTML || '');
+                        }
+                        else {
+                            formData[key] = (element.value || '').trim();
+                        }
                     } break;
 
                     default: {
