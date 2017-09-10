@@ -442,15 +442,16 @@ pure-form fires the following events _(additional information is stored event.de
 
 Event                                   | Description
 --------------------------------------- | -------------------------------------------------------------------
-[pure-form-submit](#pure-form-submit)                       | Fired when the form is submitted to the server
-[pure-form-schema-loaded](#pure-form-schema-loaded)         | Fired when `.src` url is successfully loaded
-[pure-form-schema-error](#pure-form-schema-error)           | Fired when `.src` url fails to return a JSON Schema
-[pure-form-render-complete](#pure-form-render-complete)     | Fired when pure-form completes rendering
-[pure-form-button-clicked](#pure-form-button-clicked)       | Fired when a pure-form button is clicked
-[pure-form-value-set](#pure-form-value-set)                 | Fired when the form value is set
-[pure-form-validation-failed](#pure-form-validation-failed) | Validation failed, some field items are invalid
-[pure-form-validation-passed](#pure-form-validation-passed) | Validation passed, all field values are valid
-[pure-form-submit-complete](#pure-form-submit-complete)     | Data posted to server and response received
+[pure-form-submit](#pure-form-submit)                         | Fired when the form is submitted to the server
+[pure-form-schema-loaded](#pure-form-schema-loaded)           | Fired when `.src` url is successfully loaded
+[pure-form-schema-error](#pure-form-schema-error)             | Fired when `.src` url fails to return a JSON Schema
+[pure-form-render-complete](#pure-form-render-complete)       | Fired when pure-form completes rendering
+[pure-form-button-clicked](#pure-form-button-clicked)         | Fired when a pure-form button is clicked
+[pure-form-value-set](#pure-form-value-set)                   | Fired when the form value is set
+[pure-form-value-set-complete](#pure-form-value-set-complete) | Fires when the value-set has finished updating the form
+[pure-form-validation-failed](#pure-form-validation-failed)   | Validation failed, some field items are invalid
+[pure-form-validation-passed](#pure-form-validation-passed)   | Validation passed, all field values are valid
+[pure-form-submit-complete](#pure-form-submit-complete)       | Data posted to server and response received
 
 #### pure-form-submit
 
@@ -536,6 +537,19 @@ contactForm.addEventListener('pure-form-button-clicked', function(e) {
 var contactForm = document.getElementById('contactForm');
 
 contactForm.addEventListener('pure-form-value-set', function(e) {
+    console.log(e.target);          // pure form element
+    console.log(e.detail.oldValue); // OLD value of the form before the new value was set
+    console.log(e.detail.newValue); // NEW value of the form
+    // call e.preventDefault() to cancel value set
+});
+```
+
+### pure-form-value-set-complete
+
+```js
+var contactForm = document.getElementById('contactForm');
+
+contactForm.addEventListener('pure-form-value-set-complete', function(e) {
     console.log(e.target);          // pure form element
     console.log(e.detail.oldValue); // OLD value of the form before the new value was set
     console.log(e.detail.newValue); // NEW value of the form

@@ -185,15 +185,6 @@ describe('pure-form events', function () {
             expect(JSON.stringify(e.detail.oldValue)).toEqual(JSON.stringify(oldValue));
             expect(e.detail.newValue).toEqual(testValue);
 
-            // REMOVE the checks below as this event now fires before setting!
-            // // check value was set correctly
-            // expect(e.target.value.title).toEqual(testValue.title);
-            // expect(e.target.value.firstName).toEqual(testValue.firstName);
-            // expect(e.target.value.surname).toEqual(testValue.surname);
-            // expect(e.target.value.email).toEqual(testValue.email);
-            // expect(e.target.value.phone).toEqual(testValue.phone);
-            // expect(e.target.value.message).toEqual(testValue.message);
-
             done();
         });
 
@@ -204,8 +195,47 @@ describe('pure-form events', function () {
 
         el.src = tempSchemaUrl;
     });
-    //
 
+    it('should fire pure-form-value-set-complete event when set complete', function(done) {
+
+        var el = document.createElement('pure-form');
+
+        var now = (new Date()).getTime();
+
+        var testValue = {
+            title: 'Mr',
+            firstName: 'John ' + now,
+            surname: 'Doherty' + now,
+            email: 'contact@johndoherty' + now + '.info',
+            phone: '01223 223 332' + now,
+            message: 'Test' + now
+        };
+
+        el.addEventListener('pure-form-value-set-complete', function(e) {
+
+            // check event data
+            expect(e).toBeDefined();
+            expect(this).toEqual(el);
+            expect(e.target).toEqual(el);
+
+            // check form values have been updated
+            expect(e.target.value.title).toEqual(testValue.title);
+            expect(e.target.value.firstName).toEqual(testValue.firstName);
+            expect(e.target.value.surname).toEqual(testValue.surname);
+            expect(e.target.value.email).toEqual(testValue.email);
+            expect(e.target.value.phone).toEqual(testValue.phone);
+            expect(e.target.value.message).toEqual(testValue.message);
+
+            done();
+        });
+
+        // change the value once the form has rendered
+        el.addEventListener('pure-form-render-complete', function(e) {
+            e.target.value = testValue;
+        });
+
+        el.src = tempSchemaUrl;
+    });
 
     it('should fire pure-form-submit event when submitted', function(done) {
 

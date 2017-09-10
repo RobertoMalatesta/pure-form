@@ -1192,6 +1192,8 @@
                     }
                 }
             });
+
+            self.dispatchEvent(new CustomEvent('pure-form-value-set-complete', { detail: eventData, bubbles: true, cancelable: true }));
         }
     }
 
