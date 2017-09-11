@@ -788,7 +788,7 @@
                         else if (inputEl.tagName === 'INPUT' && inputEl.type === 'checkbox') {
 
                             // fire change event when checkbox clicked
-                            inputEl.addEventListener('click', function(e) {
+                            inputEl.addEventListener(mouseClick, function(e) {
                                 e.target.dispatchEvent(new CustomEvent('change', { bubbles: true, cancelable: true }));
                             });
                         }
@@ -1808,6 +1808,10 @@
                 xhr.withCredentials = true;
                 xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
                 xhr.setRequestHeader('Content-Type', contentType);
+
+                if (xhr.overrideMimeType) {
+                    xhr.overrideMimeType('application/json');
+                }
 
                 if (window.sessionStorage && sessionStorage.authToken && sessionStorage.authToken !== '') {
                     xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.authToken);
