@@ -17,7 +17,7 @@ Example:
 
 Produces:
 
-![Cucumber HTML report](docs/img/pure-form-screenshot.png)
+![Cucumber HTML report](docs/img/pure-form-v1.1.8.jpg)
 
 [Live Demo](https://codepen.io/anon/pen/xXxqyY). Works in all modern web/mobile browsers from IE9+ - including Cordova/PhoneGap and iconic projects.
 
