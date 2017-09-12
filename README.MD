@@ -1,8 +1,15 @@
-# pure-form
+# [pure-form](https://codepen.io/anon/pen/xXxqyY)
 
-[![Shippable branch](https://img.shields.io/shippable/593a3f6e937b7c07003292bd/master.svg)](https://app.shippable.com/projects/593a3f6e937b7c07003292bd) [![Linked In](https://img.shields.io/badge/Linked-In-blue.svg)](https://www.linkedin.com/in/john-i-doherty) [![Twitter Follow](https://img.shields.io/twitter/follow/CambridgeMVP.svg?style=social&label=Twitter&style=plastic)](https://twitter.com/CambridgeMVP)
+[![Shippable branch](https://img.shields.io/shippable/593a3f6e937b7c07003292bd/master.svg)](https://app.shippable.com/projects/593a3f6e937b7c07003292bd)
+[![Linked In](https://img.shields.io/badge/Linked-In-blue.svg)](https://www.linkedin.com/in/john-i-doherty)
+[![Twitter Follow][twitter-image]][twitter-url]
 
-A pure JavaScript drop in replacement for the HTML FORM. Removes the need to manually craft/validate/UX HTML forms. Simply define your form requirements as a [JSON Schema](https://tools.ietf.org/html/draft-zyp-json-schema-03) and assign it to the new `pure-form` HTML tag. For example:
+[twitter-image]:https://img.shields.io/twitter/follow/CambridgeMVP.svg?style=social&label=Follow%20me
+[twitter-url]:https://twitter.com/CambridgeMVP
+
+Drop in replacement for the HTML FORM, removing the need to manually craft/validate/UX HTML forms. Simply define your form as a [JSON Schema](https://tools.ietf.org/html/draft-zyp-json-schema-03) and assign it to the new `pure-form` tag.
+
+Example:
 
 ```html
 <pure-form src="space-camp-application.json"></pure-form>
@@ -12,7 +19,7 @@ Produces:
 
 ![Cucumber HTML report](docs/img/pure-form-screenshot.png)
 
-Try the [demo](https://codepen.io/anon/pen/brbGza). Works in all modern web/mobile browsers from IE9+ - including Cordova/PhoneGap and iconic projects.
+[Live Demo](https://codepen.io/anon/pen/xXxqyY). Works in all modern web/mobile browsers from IE9+ - including Cordova/PhoneGap and iconic projects.
 
 **Features**
 
