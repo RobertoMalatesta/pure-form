@@ -1661,16 +1661,16 @@
 
                     // add content as elements (removes script tags)
                     stringToDOM(value || '', iframeBody);
-
-                    if (this.autoResize) {
-                        autoResizeElements.call(this);
-                    }
                 }
             } break;
 
             default: {
                 el.value = value;
             }
+        }
+
+        if (this.autoResize) {
+            autoResizeElements.call(this);
         }
     }
 
