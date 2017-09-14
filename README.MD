@@ -202,6 +202,7 @@ Property                                       | Type      | Default | Descripti
 [enforceMaxLength](#enforcemaxlength)          | _boolean_ | `false`                             | If true, does not allow the user to enter more characters that the value of schema maxLength property
 [schemaId](#schemaId)                          | _string_  | _empty_                             | id valid of the currently rendered schema _(readonly)_
 [autoResize](#autoresize)                      | _boolean_ | `false`                             | if true, expands the height of text and html inputs to display content - default false
+[isDirty](#isdirty)                            | _boolean_ | `false`                             | true if the form value was changed by the user
 
 #### action
 
@@ -369,6 +370,13 @@ var schemaId = contactForm.schemaId;
 ```js
 // allow textareas and contenteditable iframe (used for format=html) to auto expand height based on content
 var schemaId = contactForm.autoResize = true;
+```
+
+### isDirty
+
+```js
+// use the .isDirty property to determine if the user have changed the values since the form was loaded or .value was set
+var hasFormBeenUpdated = contactForm.isDirty;
 ```
 
 ### Methods

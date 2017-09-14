@@ -86,10 +86,11 @@ describe('pure-form interface', function () {
         expect(typeof el.enforceMaxLength).toEqual('boolean');
         expect(typeof el.schemaId).toEqual('string');
         expect(typeof el.autoResize).toEqual('boolean');
+        expect(typeof el.isDirty).toEqual('boolean');
     });
 
 
-    it('should expose properties with defaults', function() {
+    it('should expose properties with correct default values', function() {
 
         var el = document.createElement('pure-form');
 
@@ -115,6 +116,7 @@ describe('pure-form interface', function () {
         expect(el.enforceMaxLength).toEqual(false);
         expect(el.schemaId).toEqual('');
         expect(el.autoResize).toEqual(false);
+        expect(el.isDirty).toEqual(false);
     });
 
 

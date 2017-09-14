@@ -85,6 +85,19 @@
             },
             set: function (data) {
                 populateForm.call(this, data);
+
+                // update original value so isDirty can detect user changes
+                this._originalValue = getData.call(this);
+            }
+        },
+        isDirty: {
+            get: function() {
+
+                if (!this._originalValue) {
+                    return false;
+                }
+
+                return (JSON.stringify(this._originalValue) !== JSON.stringify(getData.call(this)));
             }
         },
         readonly: {
@@ -553,6 +566,9 @@
 
             // fire onload event
             self.dispatchEvent(new CustomEvent('pure-form-schema-loaded', { detail: data, bubbles: true, cancelable: true }));
+
+            // save a copy of the data so we can test if values change within isDirty
+            self._originalValue = getData.call(self);
 
             // get the storage object if it exists
             var storage = window[self.storage];
