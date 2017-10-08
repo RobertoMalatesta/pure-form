@@ -87,6 +87,7 @@ describe('pure-form interface', function () {
         expect(typeof el.schemaId).toEqual('string');
         expect(typeof el.autoResize).toEqual('boolean');
         expect(typeof el.isDirty).toEqual('boolean');
+        expect(typeof el.autofocusId).toEqual('string');
     });
 
 
@@ -117,6 +118,7 @@ describe('pure-form interface', function () {
         expect(el.schemaId).toEqual('');
         expect(el.autoResize).toEqual(false);
         expect(el.isDirty).toEqual(false);
+        expect(el.autofocusId).toEqual('');
     });
 
 

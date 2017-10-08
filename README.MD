@@ -173,6 +173,7 @@ Attribute                | Description
 `use-form-tag`           | If false, uses a DIV rather than a HTML FORM tag _(helps overcome iOS GO button issue)_
 `enforce-max-length`     | If true, does not allow the user to enter more characters that the value of schema maxLength property
 `schema-id`              | the id of the current schema _(readonly)_
+`autofocus-id`           | id of the field to set autofocus
 
 ### Properties
 
@@ -203,6 +204,7 @@ Property                                       | Type      | Default | Descripti
 [schemaId](#schemaId)                          | _string_  | _empty_                             | id valid of the currently rendered schema _(readonly)_
 [autoResize](#autoresize)                      | _boolean_ | `false`                             | if true, expands the height of text and html inputs to display content - default false
 [isDirty](#isdirty)                            | _boolean_ | `false`                             | true if the form value was changed by the user
+[autofocusId](#autofocusid)                    | _string_  | ``                                  | id of the field to set autofocus
 
 #### action
 
@@ -377,6 +379,13 @@ var schemaId = contactForm.autoResize = true;
 ```js
 // use the .isDirty property to determine if the user have changed the values since the form was loaded or .value was set
 var hasFormBeenUpdated = contactForm.isDirty;
+```
+
+### autofocusId
+
+```js
+// auto focus firstname ready for input
+contactForm.autofocusId = 'firstName';
 ```
 
 ### Methods

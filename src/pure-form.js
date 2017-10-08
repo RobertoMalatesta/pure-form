@@ -236,6 +236,14 @@
             set: function (value) {
                 this.setAttribute('auto-resize', value === true);
             }
+        },
+        autofocusId: {
+            get: function () {
+                return this.getAttribute('autofocus-id') || '';
+            },
+            set: function (value) {
+                this.setAttribute('autofocus-id', value || '');
+            }
         }
     });
 
@@ -747,13 +755,12 @@
                     }
                     else if (!isHidden) {
 
-                        // set focus to the first item
-                        if (i === 0) {
-                            inputEl.setAttribute('autofocus', 'true');
-                        }
-
                         // insure all inputs have a dedicated class
                         inputEl.className = 'pure-form-item';
+                    }
+
+                    if (key === self.autofocusId) {
+                        inputEl.setAttribute('autofocus', 'true');
                     }
 
                     if (!isHidden) {
