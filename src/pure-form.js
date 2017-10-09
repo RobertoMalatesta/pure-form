@@ -1216,6 +1216,11 @@
                 }
             });
 
+            // resize form field once all values are set
+            if (self.autoResize) {
+                autoResizeElements.call(self);
+            }
+
             self.dispatchEvent(new CustomEvent('pure-form-value-set-complete', { detail: eventData, bubbles: true, cancelable: true }));
         }
     }
@@ -1690,10 +1695,6 @@
             default: {
                 el.value = value;
             }
-        }
-
-        if (this.autoResize) {
-            autoResizeElements.call(this);
         }
     }
 
