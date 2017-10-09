@@ -331,6 +331,7 @@
                 renderButtons.call(this);
             } break;
 
+            case 'readonly':
             case 'enctype':
             case 'action':
             case 'use-form-tag':
@@ -753,8 +754,8 @@
                         inputEl.setAttribute('readonly', 'true');
                         if (inputEl.tagName === 'SELECT') inputEl.setAttribute('disabled', 'true');
                     }
-                    else if (!isHidden) {
 
+                    if (!isHidden) {
                         // insure all inputs have a dedicated class
                         inputEl.className = 'pure-form-item';
                     }
@@ -1351,8 +1352,8 @@
             }
 
             // assign validation if present
-            if (item.readonly) el.setAttribute('readonly', 'true');
-            if (item.readonly && el.tagName === 'SELECT') el.setAttribute('disabled', 'true');
+            if (self.readonly || item.readonly) el.setAttribute('readonly', 'true');
+            if ((self.readonly || item.readonly) && el.tagName === 'SELECT') el.setAttribute('disabled', 'true');
             if (item.required) el.setAttribute('required', 'required');
             if (item.pattern) el.setAttribute('pattern', item.pattern);
             if (item.min) el.setAttribute('min', item.min);
