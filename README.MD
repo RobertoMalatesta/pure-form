@@ -7,7 +7,7 @@
 [twitter-image]:https://img.shields.io/twitter/follow/CambridgeMVP.svg?style=social&label=Follow%20me
 [twitter-url]:https://twitter.com/CambridgeMVP
 
-Drop in replacement for the HTML FORM, removing the need to manually craft/validate/UX HTML forms. Simply define your form as a [JSON Schema](https://tools.ietf.org/html/draft-zyp-json-schema-03) and assign it to the new `pure-form` tag.
+`<pure-form>` is a drop-in replacement for the HTML `<form>` tag that allows you to create a form with validation, UX and styling, simply by defining your form as a [JSON Schema](https://tools.ietf.org/html/draft-zyp-json-schema-03) and assigning it to the `src` attribute of the new `<pure-form>` tag.
 
 Example:
 
