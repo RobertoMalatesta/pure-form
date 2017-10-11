@@ -9,7 +9,6 @@ var window = null;
 
 var tempSchemaUrl = 'http://localhost:8080/test-schema.json';
 var schema404Url = 'http://localhost:8080/404';
-var tempPostUrl = 'http://localhost:8080/post-test';
 
 // intercept request for schema
 nock.disableNetConnect();
@@ -94,7 +93,7 @@ describe('pure-form events', function () {
             expect(typeof e.detail).toEqual('object');
             expect(e.detail.url).toEqual(schema404Url);
             expect(e.detail.status).toEqual(404);
-            expect(e.detail.body).toEqual({});
+            expect(e.detail.body).toEqual('');
 
             expect(el.schema).toBe(null);
             done();

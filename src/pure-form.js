@@ -1785,6 +1785,22 @@
     var http = (function() {
 
         /**
+         * Checks if a string is a serialized JSON object
+         * @param {string} value - string to inspect
+         * @returns {Boolean} true if string is JSON otherwise false
+         */
+        function isJson(value) {
+
+            try {
+                JSON.parse(value);
+            }
+            catch (e) {
+                return false;
+            }
+            return true;
+        }
+
+        /**
          * Converts a JSON object into HTTP encoded data
          * @param {object} data - key/value object containing data
          * @returns {string} containing object flattened and concat with '&'
@@ -1793,21 +1809,6 @@
             return Object.keys(data || {}).map(function(key) {
                 return encodeURI(key + '=' + data[key]);
             }).join('&');
-        }
-
-        /**
-         * Converts response data to type to match response content-type header
-         * @param {string} type - response content type
-         * @param {string} data - response text
-         * @returns {object} raw string or JSON object
-         */
-        function castResponseData(type, data) {
-
-            if ((type || '').indexOf('application/json') > -1) {
-                return JSON.parse(data || '{}');
-            }
-
-            return data || '';
         }
 
         /**
@@ -1845,7 +1846,7 @@
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === 4) {
 
-                        var responseData = castResponseData(xhr.getResponseHeader('content-type'), xhr.responseText);
+                        var responseData = isJson(xhr.responseText) ? JSON.parse(xhr.responseText) : xhr.responseText;
                         var success = (xhr.status >= 200 && xhr.status <= 300);
 
                         if (success || (xhr.status === 0 && xhr.responseText !== '')) {
