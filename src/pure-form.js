@@ -1632,8 +1632,8 @@
 
         keys.sort(function (a, b) {
 
-            var aId = (schema[a].id) ? parseInt(schema[a].id.replace(/[^0-9]+/gi, '') || '0', 10) : 0;
-            var bId = (schema[b].id) ? parseInt(schema[b].id.replace(/[^0-9]+/gi, '') || '0', 10) : 0;
+            var aId = parseFloat((schema[a].id || '0').replace(/[^0-9.]+/gi, ''));
+            var bId = parseFloat((schema[b].id || '0').replace(/[^0-9.]+/gi, ''));
 
             return (aId - bId);
         });
