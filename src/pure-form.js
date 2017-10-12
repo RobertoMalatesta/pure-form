@@ -298,6 +298,13 @@
                 window[self.storage][self.src] = JSON.stringify(getRawData.call(self));
             }
         });
+
+        // detect dragging so we can stop button click events incorrectly firing on buttons when dragging
+        if (isTouch) {
+            self.addEventListener('touchstart', function() { self.__dragging = false; }, { passive: true });
+            self.addEventListener('touchmove', function() { self.__dragging = true; }, { passive: true });
+            self.addEventListener('touchend', function() { self.__dragging = false; }, { passive: true });
+        }
     };
 
     /**
@@ -934,7 +941,7 @@
 
                 var el = e.target;
 
-                if (el.tagName === 'INPUT') {
+                if (el.tagName === 'INPUT' && !self.__dragging) {
 
                     var eventData = {
                         value: el.value,
