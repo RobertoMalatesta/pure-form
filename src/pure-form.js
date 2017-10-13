@@ -684,7 +684,7 @@
                         var button = (self.querySelectorAll('.pure-form-button') || [])[0];
 
                         if (button) {
-                            button.click();
+                            fireEvent(button, isTouch ? 'touchend' : 'click');
                         }
                     }
                 }
@@ -1383,6 +1383,29 @@
     /*------------------------*/
     /* PRIVATE HELPER METHODS */
     /*------------------------*/
+
+    /**
+    * Cross browser method to fire events
+    * @param {Element} el - html element to fire the event on
+    * @param {string} eventName - name of the event to fire
+    * @returns {void}
+    */
+    function fireEvent(el, eventName) {
+
+        eventName = eventName.replace(/on/, '');
+
+        if (document.createEvent) {
+            var e = document.createEvent('Event');
+            e.initEvent(eventName, true, true);
+            el.dispatchEvent(e);
+        }
+        else if (document.createEventObject) {
+            el.fireEvent('on' + eventName);
+        }
+        else if (typeof el['on' + eventName] === 'function') {
+            el['on' + eventName]();
+        }
+    }
 
     /**
      * Adjusts the height of iframes and textareas to show all content
