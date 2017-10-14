@@ -476,6 +476,7 @@ Event                                   | Description
 [pure-form-validation-failed](#pure-form-validation-failed)   | Validation failed, some field items are invalid
 [pure-form-validation-passed](#pure-form-validation-passed)   | Validation passed, all field values are valid
 [pure-form-submit-complete](#pure-form-submit-complete)       | Data posted to server and response received
+[pure-form-value-changed](#pure-form-value-changed)           | Change event fires whenever any item in the form changes
 
 #### pure-form-submit
 
@@ -629,6 +630,21 @@ document.addEventListener('pure-form-submit-error', function(e) {
     console.log(e.detail.url);      // requested URL
     console.log(e.detail.status);   // HTTP status code
     console.log(e.detail.body);     // HTTP response body
+});
+```
+
+#### pure-form-value-changed
+
+```js
+// the value of a field change within the form
+document.addEventListener('pure-form-value-changed', function(e) {
+    console.log('--------------------');
+    console.log(e.type);        // event name
+    console.log(e.detail);      // detail.srcElement contains element that triggered the change
+    console.log(this);          // pure form element
+    console.log(e.target);      // pure form element
+    console.log(e.target.value) // form value
+    console.log('--------------------');
 });
 ```
 

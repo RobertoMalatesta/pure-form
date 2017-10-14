@@ -293,6 +293,10 @@
 
         self.addEventListener('change', function(e) {
 
+            e.preventDefault();
+
+            self.dispatchEvent(new CustomEvent('pure-form-value-changed', { detail: { srcElement: e.target }, bubbles: true, cancelable: true }));
+
             // update session stored form data
             if (self.persist && window[self.storage]) {
                 window[self.storage][self.src] = JSON.stringify(getRawData.call(self));
@@ -694,11 +698,17 @@
                 if (self.autoResize) {
                     autoResizeElements.call(self);
                 }
+
+                //el.dispatchEvent(new CustomEvent('change', { bubbles: true, cancelable: true }));
             });
 
             this.form.addEventListener('change', function(e) {
 
                 var el = e.target;
+
+                // console.log('----');
+                // console.log(el);
+                // console.log('----');
 
                 // listen for file change events and add base64 file data as .data item
                 if (el && el.tagName === 'INPUT' && el.type === 'file') {
@@ -816,13 +826,13 @@
                                 });
                             }
                         }
-                        else if (inputEl.tagName === 'INPUT' && inputEl.type === 'checkbox') {
+                        // else if (inputEl.tagName === 'INPUT' && inputEl.type === 'checkbox') {
 
-                            // fire change event when checkbox clicked
-                            inputEl.addEventListener(mouseClick, function(e) {
-                                e.target.dispatchEvent(new CustomEvent('change', { bubbles: true, cancelable: true }));
-                            });
-                        }
+                        //     // fire change event when checkbox clicked
+                        //     inputEl.addEventListener(mouseClick, function(e) {
+                        //         e.target.dispatchEvent(new CustomEvent('change', { bubbles: true, cancelable: true }));
+                        //     });
+                        // }
                     }
                     else {
                         this.form.appendChild(inputEl);
@@ -1267,7 +1277,7 @@
             } break;
 
             case 'boolean': {
-                el = createEl(null, 'input', { name: id, id: id, type: 'checkbox', value: '' });
+                el = createEl(null, 'input', { name: id, id: id, type: 'checkbox', value: '1' });
             } break;
 
             default: {
@@ -1688,12 +1698,7 @@
             case 'input': {
 
                 if (type === 'checkbox') {
-                    if (value) {
-                        el.setAttribute('checked', (value === true));
-                    }
-                    else {
-                        el.removeAttribute('checked');
-                    }
+                    el.checked = (value === true);
                 }
                 else {
                     el.value = value;
