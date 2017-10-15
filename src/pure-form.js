@@ -653,6 +653,20 @@
                 }
             }, true);
 
+            if (self.enforceMaxLength) {
+
+                // enforce max length by rejecting additional printable characters on keydown
+                this.form.addEventListener('keydown', function(e) {
+
+                    // letter keys || numpad keys
+                    var isCharacter = (e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 95 && e.keyCode < 112);
+
+                    if (isCharacter && e.target.value.length === e.target.maxLength) {
+                        e.preventDefault();
+                    }
+                });
+            }
+
             // listen for keyboard events in case tabOnEnter is later enabled
             this.form.addEventListener('keyup', function(e) {
 
