@@ -658,8 +658,8 @@
                 // enforce max length by rejecting additional printable characters on keydown
                 this.form.addEventListener('keydown', function(e) {
 
-                    // letter keys || numpad keys
-                    var isCharacter = (e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 95 && e.keyCode < 112);
+                    // number keys || letter keys || numpad keys
+                    var isCharacter = (e.keyCode > 47 && e.keyCode < 58) || (e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 95 && e.keyCode < 112);
 
                     if (isCharacter && e.target.value.length === e.target.maxLength) {
                         e.preventDefault();
