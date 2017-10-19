@@ -1137,7 +1137,7 @@
             var item = schema[key];
             var element = self.querySelector('[name="' + key + '"]');
 
-            if (element) {
+            if (element && element.type !== 'file') {
 
                 switch (item.type) {
 
@@ -1714,7 +1714,7 @@
                 if (type === 'checkbox') {
                     el.checked = (value === true);
                 }
-                else {
+                else if (type !== 'file') {
                     el.value = value;
                 }
 
