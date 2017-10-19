@@ -22,7 +22,7 @@
     var patterns = {
         email: /^[a-zA-Z0-9-_.]{1,}@[a-zA-Z0-9.-]{2,}[.]{1}[a-zA-Z]{2,}$/,
         // matches custom URC used to create custom elements, example = custom:tag:attributeKey1=attributeValue1,attributeKey2=attributeValue2
-        customURC: /^custom:([a-z0-9-]*)(?:;|)([a-z0-9-=/*,.]+|)$/i
+        customURC: /^custom:([a-z0-9-]*)(?:;|)([a-z0-9-=/*,.()]+|)$/i
     };
 
     // Create a new instance of the base object with these additional items
@@ -712,20 +712,18 @@
                 if (self.autoResize) {
                     autoResizeElements.call(self);
                 }
-
-                //el.dispatchEvent(new CustomEvent('change', { bubbles: true, cancelable: true }));
             });
 
             this.form.addEventListener('change', function(e) {
 
                 var el = e.target;
 
-                // console.log('----');
-                // console.log(el);
-                // console.log('----');
-
                 // listen for file change events and add base64 file data as .data item
-                if (el && el.tagName === 'INPUT' && el.type === 'file') {
+                if (el && el.tagName === 'INPUT' && el.type === 'file' && !el.data) {
+
+                    // suppress this event
+                    e.preventDefault();
+                    e.stopPropagation();
 
                     // convert files into array object
                     var files = Array.prototype.slice.call(e.target.files);
@@ -738,7 +736,12 @@
 
                         // get the file as base64 string add to data array using same index (handles overwrites)
                         getBase64(file, function(base64) {
+
+                            // store the base64 file content on the element
                             el.data[index] = base64;
+
+                            // fire the event now file data has been assigned
+                            fireEvent(el, 'change');
                         });
                     });
                 }
