@@ -205,6 +205,7 @@ Property                                       | Type      | Default | Descripti
 [autoResize](#autoresize)                      | _boolean_ | `false`                             | if true, expands the height of text and html inputs to display content - default false
 [isDirty](#isdirty)                            | _boolean_ | `false`                             | true if the form value was changed by the user
 [autofocusId](#autofocusid)                    | _string_  | ``                                  | id of the field to set autofocus
+[links](#links)                                | _array_   | _empty_                             | get/set array of HATEOAS that are rendered as buttons
 
 #### action
 
@@ -384,9 +385,20 @@ var hasFormBeenUpdated = contactForm.isDirty;
 ### autofocusId
 
 ```js
-// auto focus firstname ready for input
+// auto focus first name ready for input
 contactForm.autofocusId = 'firstName';
 ```
+
+### links
+
+```js
+// add a hateoas link object - renders a button that when clicked, sends form data to API link
+contactForm.links = [
+  // title is used as button text!
+  { title: 'Save', rel: 'save', href: 'http://localhost:8080/api' }
+]
+```
+
 
 ### Methods
 

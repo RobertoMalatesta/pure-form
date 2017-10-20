@@ -88,6 +88,8 @@ describe('pure-form rendering', function () {
         expect(el.children.length).toEqual(0);
     });
 
+    /* --- TITLE --- */
+
     it('should render title when set', function () {
 
         var el = document.createElement('pure-form');
@@ -136,6 +138,8 @@ describe('pure-form rendering', function () {
         expect(el.querySelectorAll('.pure-form-title').length).toEqual(1);
     });
 
+    /* --- DESCRIPTION --- */
+
     it('should render description when set', function () {
 
         var el = document.createElement('pure-form');
@@ -159,6 +163,10 @@ describe('pure-form rendering', function () {
         el.description = '';
         expect(el.querySelector('.pure-form-description')).toBe(null);
     });
+
+    /* --- BUTTONS --- */
+
+    // TODO: add tests to cover .links change (should trigger re-render of buttons etc)
 
     it('should only ever render 1 description', function () {
 
@@ -208,7 +216,6 @@ describe('pure-form rendering', function () {
             expect(button.value).toEqual(buttonValues[index]);
         });
     });
-
 
     it('should re-render buttons when reset', function () {
 
@@ -268,6 +275,8 @@ describe('pure-form rendering', function () {
         expect(el.querySelector('.pure-form-buttons')).toBe(null);
         expect(el.querySelectorAll('.pure-form-buttons .pure-form-button').length).toEqual(0);
     });
+
+    /* --- ATTRIBUTES --- */
 
     it('should reflect properties as attributes', function () {
 

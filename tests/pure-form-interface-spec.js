@@ -88,6 +88,7 @@ describe('pure-form interface', function () {
         expect(typeof el.autoResize).toEqual('boolean');
         expect(typeof el.isDirty).toEqual('boolean');
         expect(typeof el.autofocusId).toEqual('string');
+        expect(Array.isArray(el.links)).toEqual(true);
     });
 
 
@@ -119,6 +120,7 @@ describe('pure-form interface', function () {
         expect(el.autoResize).toEqual(false);
         expect(el.isDirty).toEqual(false);
         expect(el.autofocusId).toEqual('');
+        expect(el.links.length).toEqual(0);
     });
 
 

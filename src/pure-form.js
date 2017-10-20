@@ -141,6 +141,26 @@
                 this.setAttribute('buttons', value);
             }
         },
+        links: {
+            get: function() {
+                return (this.schema || {}).links || [];
+            },
+            set: function(value) {
+                if (!Array.isArray(value)) throw new Error('Schema links must be an array');
+                if (!this.schema) throw new Error('Unable to assign schema.links');
+
+                // check link object have required data
+                value.forEach(function(link) {
+                    if (!link.title || link.title === '') throw new Error('Link object must have a title property');
+                    if (!link.rel || link.rel === '') throw new Error('Link object must have a rel property');
+                });
+
+                this.schema.links = value;
+
+                // update buttons
+                renderButtons.call(this);
+            }
+        },
         persist: {
             get: function () {
                 return (this.getAttribute('persist') === 'true');
