@@ -595,6 +595,9 @@
         var self = this;
         var schemaUrl = this.src;
 
+        // fire schema loading event just before requesting the schema
+        self.dispatchEvent(new CustomEvent('pure-form-schema-loading', { detail: schemaUrl, bubbles: true, cancelable: true }));
+
         http.get(schemaUrl, 'application/json', null, function(error) {
             // fire error event
             self.dispatchEvent(new CustomEvent('pure-form-schema-error', { detail: error, bubbles: true, cancelable: true }));

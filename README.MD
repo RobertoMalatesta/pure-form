@@ -476,9 +476,10 @@ document.getElementById('contactForm').reset();
 
 pure-form fires the following events _(additional information is stored event.detail property)_:
 
-Event                                   | Description
---------------------------------------- | -------------------------------------------------------------------
+Event                                                         | Description
+------------------------------------------------------------- | -------------------------------------------------------------------
 [pure-form-submit](#pure-form-submit)                         | Fired when the form is submitted to the server
+[pure-form-schema-loading](#pure-form-schema-loading)         | Fires when a form schema is loading
 [pure-form-schema-loaded](#pure-form-schema-loaded)           | Fired when `.src` url is successfully loaded
 [pure-form-schema-error](#pure-form-schema-error)             | Fired when `.src` url fails to return a JSON Schema
 [pure-form-render-complete](#pure-form-render-complete)       | Fired when pure-form completes rendering
@@ -505,6 +506,20 @@ contactForm.addEventListener('pure-form-submit', function(e) {
 
 // trigger form submit
 contactForm.submit();
+```
+
+#### pure-form-schema-loading
+
+Fires when a JSON schema has started loading.
+
+```js
+var contactForm = document.getElementById('contactForm');
+
+contactForm.addEventListener('pure-form-schema-loading', function(e) {
+    console.log(this);            // pure form element
+    console.log(e.target);        // pure form element
+    console.log(e.detail);    // schema URL
+});
 ```
 
 #### pure-form-schema-loaded
