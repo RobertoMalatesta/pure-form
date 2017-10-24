@@ -1226,12 +1226,14 @@
         },
         function(data) {
 
+            // get the next schema as a link if it exists
             var nextSchemaLink = arrayWhere((data.body || {}).links || [], 'rel', 'describedby:next', true) || {};
-            var nextSchemaUrl = (!nextSchemaLink.method || nextSchemaLink.method === 'GET' ) ? nextSchemaLink.href : '';
+            var nextSchemaMethod = nextSchemaLink.method || 'GET';
+            var nextSchemaUrl = nextSchemaLink.href || '';
 
             // 1. if the response has a link to the next schema, auto load that schema
-            if (nextSchemaUrl !== '') {
-                self.src = nextSchemaLink.href;
+            if (nextSchemaMethod === 'GET' && nextSchemaUrl !== '') {
+                self.src = nextSchemaUrl;
             }
             // 2. if the response contains an inline schema, auto load that schema
             else if (data.body && data.body.$schema) {
