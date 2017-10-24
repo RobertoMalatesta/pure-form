@@ -1226,12 +1226,21 @@
         },
         function(data) {
 
-            // fire onload event
-            self.dispatchEvent(new CustomEvent('pure-form-submit-complete', { detail: data, bubbles: true, cancelable: true }));
+            var nextSchemaLink = arrayWhere((data.body || {}).links || [], 'rel', 'describedby:next', true) || {};
+            var nextSchemaUrl = (!nextSchemaLink.method || nextSchemaLink.method === 'GET' ) ? nextSchemaLink.href : '';
 
-            if (data.body && data.body.$schema) {
-                // render next schema
+            // 1. if the response has a link to the next schema, auto load that schema
+            if (nextSchemaUrl !== '') {
+                self.src = nextSchemaLink.href;
+            }
+            // 2. if the response contains an inline schema, auto load that schema
+            else if (data.body && data.body.$schema) {
                 self.schema = data.body;
+            }
+            // 3. if the response does not contain a next schema, fire the complete event
+            else {
+                // fire onload event
+                self.dispatchEvent(new CustomEvent('pure-form-submit-complete', { detail: data, bubbles: true, cancelable: true }));
             }
         });
     }
