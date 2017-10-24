@@ -1925,8 +1925,12 @@
                     xhr.overrideMimeType('application/json');
                 }
 
+                // add authorization HTTP header if present in session or local storage
                 if (window.sessionStorage && sessionStorage.authToken && sessionStorage.authToken !== '') {
                     xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.authToken);
+                }
+                else if (window.localStorage && localStorage.authToken && localStorage.authToken !== '') {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken);
                 }
 
                 xhr.onreadystatechange = function() {
