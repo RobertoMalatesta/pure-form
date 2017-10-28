@@ -327,7 +327,7 @@
 
             // update session stored form data
             if (self.persist && window[self.storage]) {
-                window[self.storage][self.src] = JSON.stringify(getRawData.call(self));
+                window[self.storage].setItem(self.src, JSON.stringify(getRawData.call(self)));
             }
         });
 
@@ -625,8 +625,15 @@
             var storage = window[self.storage];
 
             // apply session stored form data if it exists
-            if (self.persist && storage && storage[self.src]) {
-                populateForm.call(self, JSON.parse(storage[self.src]));
+            if (self.persist && storage) {
+
+                // get value from web storage
+                var storedContent = storage.getItem(self.src) || '';
+
+                // if we have content, repopulate the form
+                if (storedContent !== '') {
+                    populateForm.call(self, JSON.parse(storage[self.src]));
+                }
             }
         });
     }
