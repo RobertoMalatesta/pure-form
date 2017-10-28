@@ -325,9 +325,12 @@
 
             self.dispatchEvent(new CustomEvent('pure-form-value-changed', { detail: { srcElement: e.target }, bubbles: true, cancelable: true }));
 
-            // update session stored form data
-            if (self.persist && window[self.storage]) {
-                window[self.storage].setItem(self.src, JSON.stringify(getRawData.call(self)));
+            var rawData = getRawData.call(self);
+            var webStorage = window[self.storage];
+
+            // update stored form data
+            if (self.persist && webStorage) {
+                setStorageItem(webStorage, self.src, JSON.stringify(rawData));
             }
         });
 
@@ -622,18 +625,18 @@
             self._originalValue = getData.call(self);
 
             // get the storage object if it exists
-            var storage = window[self.storage];
+            var webStorage = window[self.storage];
 
             // apply session stored form data if it exists
-            if (self.persist && storage) {
+            if (self.persist && webStorage) {
 
                 // get value from web storage
-                var storedContent = storage.getItem(self.src) || '';
+                getStorageItem(webStorage, self.src, function(value) {
 
-                // if we have content, repopulate the form
-                if (storedContent !== '') {
-                    populateForm.call(self, JSON.parse(storage[self.src]));
-                }
+                    if (value) {
+                        populateForm.call(self, JSON.parse(value));
+                    }
+                });
             }
         });
     }
@@ -1452,6 +1455,47 @@
     /*------------------------*/
     /* PRIVATE HELPER METHODS */
     /*------------------------*/
+
+    /**
+     * Get a value form web storage regardless of wether it's sync or async
+     * @param {any} storage - web based storage object
+     * @param {any} key - key of item to retrieve
+     * @param {any} callback - function handler
+     * @returns {void}
+     */
+    function getStorageItem(storage, key, callback) {
+
+        if (typeof callback !== 'function') throw new Error('Invalid callback handler');
+
+        var result = storage.getItem(key);
+
+        if (result instanceof window.Promise) {
+            result.then(callback);
+        }
+        else {
+            callback(result);
+        }
+    }
+
+    /**
+     * Set a value in web storage regardless of wether it's sync or async
+     * @param {any} storage - web based storage object
+     * @param {any} key - key of item to retrieve
+     * @param {any} value - value to set
+     * @param {any} callback - function handler
+     * @returns {void}
+     */
+    function setStorageItem(storage, key, value, callback) {
+
+        var result = storage.setItem(key, value);
+
+        if (result instanceof window.Promise && callback) {
+            result.then(callback);
+        }
+        else if (callback) {
+            callback();
+        }
+    }
 
     /**
     * Cross browser method to fire events
