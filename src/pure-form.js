@@ -13,10 +13,7 @@
     var isTouch = (('ontouchstart' in window) || (navigator.MaxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
 
     // switch to touch events if using a touch screen
-    //var mouseDown = isTouch ? 'touchstart' : 'mousedown';
-    //var mouseOut = isTouch ? 'touchcancel' : 'mouseout';
     var mouseClick = isTouch ? 'touchend' : 'click';
-    //var mouseMove = isTouch ? 'touchmove' : 'mousemove';
 
     // regex validation patterns
     var patterns = {
@@ -65,6 +62,9 @@
             },
             set: function (value) {
                 this._schema = value;
+
+                // fire onload event
+                this.dispatchEvent(new CustomEvent('pure-form-schema-set', { bubbles: true, cancelable: true }));
 
                 this.title = this._schema.title;
                 this.description = this._schema.description;
@@ -263,6 +263,14 @@
             },
             set: function (value) {
                 this.setAttribute('autofocus-id', value || '');
+            }
+        },
+        authToken: {
+            get: function () {
+                return this.getAttribute('auth-token') || '';
+            },
+            set: function (value) {
+                this.setAttribute('auth-token', value || '');
             }
         }
     });
@@ -598,7 +606,7 @@
         // fire schema loading event just before requesting the schema
         self.dispatchEvent(new CustomEvent('pure-form-schema-loading', { detail: schemaUrl, bubbles: true, cancelable: true }));
 
-        http.get(schemaUrl, 'application/json', null, function(error) {
+        http.get(schemaUrl, 'application/json', null, self.authToken, function(error) {
             // fire error event
             self.dispatchEvent(new CustomEvent('pure-form-schema-error', { detail: error, bubbles: true, cancelable: true }));
         },
@@ -866,13 +874,6 @@
                                 });
                             }
                         }
-                        // else if (inputEl.tagName === 'INPUT' && inputEl.type === 'checkbox') {
-
-                        //     // fire change event when checkbox clicked
-                        //     inputEl.addEventListener(mouseClick, function(e) {
-                        //         e.target.dispatchEvent(new CustomEvent('change', { bubbles: true, cancelable: true }));
-                        //     });
-                        // }
                     }
                     else {
                         this.form.appendChild(inputEl);
@@ -1220,7 +1221,7 @@
 
         self.clearErrors();
 
-        http[method](url, contentType, formData, function(err) {
+        http[method](url, contentType, formData, self.authToken, function(err) {
             // fire error event
             self.dispatchEvent(new CustomEvent('pure-form-submit-error', { detail: err, bubbles: true, cancelable: true }));
         },
@@ -1903,11 +1904,12 @@
          * @param {string} url - url to request
          * @param {string} contentType - the content type to send to the server
          * @param {object} data - data to sent
+         * @param {string} authToken - HTTP Authorization Bearer token
          * @param {function} error - method to handle an error
          * @param {function} callback - method to handle success response
          * @returns {void}
          */
-        function exec(method, url, contentType, data, error, callback) {
+        function exec(method, url, contentType, data, authToken, error, callback) {
 
             var xhr = ('withCredentials' in new XMLHttpRequest()) ? new XMLHttpRequest() : new XDomainRequest();
 
@@ -1915,6 +1917,7 @@
 
                 method = method || 'GET';
                 contentType = contentType || 'application/json';
+                authToken = authToken || '';
 
                 xhr.open(method, url);
                 xhr.withCredentials = true;
@@ -1925,12 +1928,9 @@
                     xhr.overrideMimeType('application/json');
                 }
 
-                // add authorization HTTP header if present in session or local storage
-                if (window.sessionStorage && sessionStorage.authToken && sessionStorage.authToken !== '') {
-                    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.authToken);
-                }
-                else if (window.localStorage && localStorage.authToken && localStorage.authToken !== '') {
-                    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken);
+                // add HTTP Authorization header if authToken is present
+                if (authToken !== '') {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + authToken);
                 }
 
                 xhr.onreadystatechange = function() {
@@ -1976,20 +1976,20 @@
         }
 
         return {
-            get: function(url, contentType, data, error, callback) {
-                exec('GET', url, contentType, data, error, callback);
+            get: function(url, contentType, data, authToken, error, callback) {
+                exec('GET', url, contentType, data, authToken, error, callback);
             },
-            post: function(url, contentType, data, error, callback) {
-                exec('POST', url, contentType, data, error, callback);
+            post: function(url, contentType, data, authToken, error, callback) {
+                exec('POST', url, contentType, data, authToken, error, callback);
             },
-            put: function(url, contentType, data, error, callback) {
-                exec('PUT', url, contentType, data, error, callback);
+            put: function(url, contentType, data, error, authToken, callback) {
+                exec('PUT', url, contentType, data, authToken, error, callback);
             },
-            patch: function(url, contentType, data, error, callback) {
-                exec('PATCH', url, contentType, data, error, callback);
+            patch: function(url, contentType, data, authToken, error, callback) {
+                exec('PATCH', url, contentType, data, authToken, error, callback);
             },
-            delete: function(url, contentType, data, error, callback) {
-                exec('DELETE', url, contentType, data, error, callback);
+            delete: function(url, contentType, data, authToken, error, callback) {
+                exec('DELETE', url, contentType, data, authToken, error, callback);
             }
         };
     })();

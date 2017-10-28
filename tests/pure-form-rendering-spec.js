@@ -324,6 +324,9 @@ describe('pure-form rendering', function () {
 
         el.enforceMaxLength = true;
         expect(el.getAttribute('enforce-max-length')).toEqual('true');
+
+        el.authToken = 'Test01';
+        expect(el.getAttribute('auth-token')).toEqual('Test01');
     });
 
     it('should load JSON schema set via .src attribute', function(done) {

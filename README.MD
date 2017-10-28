@@ -174,6 +174,7 @@ Attribute                | Description
 `enforce-max-length`     | If true, does not allow the user to enter more characters that the value of schema maxLength property
 `schema-id`              | the id of the current schema _(readonly)_
 `autofocus-id`           | id of the field to set autofocus
+`auth-token`             | HTTP Authorization Bearer token 
 
 ### Properties
 
@@ -206,6 +207,7 @@ Property                                       | Type      | Default | Descripti
 [isDirty](#isdirty)                            | _boolean_ | `false`                             | true if the form value was changed by the user
 [autofocusId](#autofocusid)                    | _string_  | ``                                  | id of the field to set autofocus
 [links](#links)                                | _array_   | _empty_                             | get/set array of HATEOAS that are rendered as buttons
+[authToken](#authtoken)                        | _string_  | _empty_                             | HTTP Authorization Bearer token
 
 #### action
 
@@ -375,21 +377,21 @@ var schemaId = contactForm.schemaId;
 var schemaId = contactForm.autoResize = true;
 ```
 
-### isDirty
+#### isDirty
 
 ```js
 // use the .isDirty property to determine if the user have changed the values since the form was loaded or .value was set
 var hasFormBeenUpdated = contactForm.isDirty;
 ```
 
-### autofocusId
+#### autofocusId
 
 ```js
 // auto focus first name ready for input
 contactForm.autofocusId = 'firstName';
 ```
 
-### links
+#### links
 
 ```js
 // add a hateoas link object - renders a button that when clicked, sends form data to API link
@@ -399,6 +401,12 @@ contactForm.links = [
 ]
 ```
 
+#### authToken
+
+```js
+// set authToken to be used as HTTP Authorization Bearer value in subsequent requests
+contactForm.authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9';
+```
 
 ### Methods
 

@@ -89,6 +89,7 @@ describe('pure-form interface', function () {
         expect(typeof el.isDirty).toEqual('boolean');
         expect(typeof el.autofocusId).toEqual('string');
         expect(Array.isArray(el.links)).toEqual(true);
+        expect(typeof el.authToken).toEqual('string');
     });
 
 
@@ -121,8 +122,8 @@ describe('pure-form interface', function () {
         expect(el.isDirty).toEqual(false);
         expect(el.autofocusId).toEqual('');
         expect(el.links.length).toEqual(0);
+        expect(el.authToken).toEqual('');
     });
-
 
     it('should expose public methods', function() {
 
